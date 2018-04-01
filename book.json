@@ -1,0 +1,13 @@
+{
+  "gitbook": "3.2.x",
+  "title": "Tommy Documentation",
+  "styles": {
+    "website": "styles/website.css"
+  },
+  "plugins": [ "insert-logo", "otherlink", "-sharing" ],
+  "pluginsConfig": {
+    "insert-logo": {
+      "url": "/assets/logo.png"
+    }
+  }
+}

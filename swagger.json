@@ -1,0 +1,5235 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Tommy",
+    "description": "The Tommy API is organized around the [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer) methodology, and it uses resource-oriented URLs, and common HTTP response codes to indicate API errors. All requests are authenticated using an `api-key` which can be obtained from your developer dashboard."
+  },
+  "host": "api.mytommy.com",
+  "basePath": "/v1",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic",
+      "description": "HTTP Basic Authentication. Works over `HTTP` and `HTTPS`"
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/accounts/search/{term}": {
+      "get": {
+        "summary": "Search users",
+        "description": "Get all users and teams who's mobile or username match the given search term.",
+        "operationId": "searchAccounts",
+        "tags": [
+          "Account"
+        ],
+        "parameters": [
+          {
+            "name": "term",
+            "in": "path",
+            "description": "Account term",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me": {
+      "get": {
+        "description": "Get the current user object.",
+        "operationId": "getCurrentUser",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "User response",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update the current user object.",
+        "operationId": "updateCurrentUser",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "UserInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User response",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/accounts": {
+      "get": {
+        "description": "Get all accounts belonging to the current user.",
+        "operationId": "getCurrentUserAccounts",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "Account response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/qr.png": {
+      "get": {
+        "description": "Get the current account QR code image.",
+        "operationId": "getCurrentAccountQR",
+        "produces": [
+          "image/png"
+        ],
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "Image response"
+          }
+        }
+      }
+    },
+    "/me/associates": {
+      "get": {
+        "summary": "Get associated accounts",
+        "description": "Get accounts related to the current user via associated team members.",
+        "operationId": "getAssociates",
+        "tags": [
+          "Contact"
+        ],
+        "responses": {
+          "200": {
+            "description": "Account response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/current_account": {
+      "get": {
+        "summary": "Get the current account",
+        "description": "Get the current user account.",
+        "operationId": "getCurrentUserAccount",
+        "tags": [
+          "User",
+          "Account"
+        ],
+        "responses": {
+          "200": {
+            "description": "Account response",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update the current account",
+        "description": "Update the current user account. \\\n              The current account may be a `User`, `Team`, or `TeamMember` type.",
+        "operationId": "updateCurrentUserAccount",
+        "tags": [
+          "User",
+          "Account"
+        ],
+        "parameters": [
+          {
+            "name": "current_account_id",
+            "in": "query",
+            "description": "The polymorphic Account ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "current_account_type",
+            "in": "query",
+            "description": "The polymorphic Account Type (`User`, `Team`, `TeamMember`)",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account response",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/settings": {
+      "get": {
+        "summary": "Get user settings",
+        "description": "Get user settings object.",
+        "operationId": "getUserSettings",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "Setting response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user settings",
+        "description": "Update user settings object.",
+        "operationId": "updateUserSettings",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "SettingData request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SettingData"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/me/settings/{key}": {
+      "get": {
+        "summary": "Get user setting value",
+        "description": "Get a user setting value.",
+        "operationId": "getUserSettingValue",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "SettingData key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SettingData response",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user setting value",
+        "description": "Update a user setting value.",
+        "operationId": "updateUserSettingValue",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "Setting key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "SettingData request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SettingData"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user setting value",
+        "description": "Delete a user setting value.",
+        "operationId": "deleteUserSettingValue",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "Setting key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "description": "Create a User on the system.",
+        "operationId": "User",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "UserInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User response",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Get all Users the authenticated User has access to.",
+        "operationId": "getUsers",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "User response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/users/search/{term}": {
+      "get": {
+        "summary": "Search users",
+        "description": "Get all users who's mobile number matches the given search term.",
+        "operationId": "searchUsers",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "term",
+            "in": "path",
+            "description": "User term",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/users/{slug}": {
+      "get": {
+        "summary": "Get a user",
+        "description": "Get a user object by slug.",
+        "operationId": "getUser",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "User slug",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User response",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/send_verification_sms": {
+      "post": {
+        "summary": "Send a verification SMS",
+        "description": "Send an account verification SMS to the user's mobile number.",
+        "operationId": "send_verification_sms",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/send_verification_email": {
+      "post": {
+        "summary": "Send a verification email",
+        "description": "Send an account verification email to the user's email address.",
+        "operationId": "send_verification_email",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/users/verify/{pin}": {
+      "get": {
+        "summary": "Verify a user account",
+        "description": "Verify a user account using the given pin code.",
+        "operationId": "verifyUser",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "pin",
+            "in": "path",
+            "description": "The user pin code",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User response",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/users/reset_password": {
+      "post": {
+        "summary": "Reset a user password",
+        "description": "Reset a user password for the account associated with the provided email address or mobile number.",
+        "operationId": "ressetUserPassword",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "login",
+            "in": "query",
+            "description": "The user email address or mobile number",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/teams/tags": {
+      "get": {
+        "summary": "Get team tags",
+        "description": "Get tags related to the current team.",
+        "operationId": "getTeamTags",
+        "tags": [
+          "Team"
+        ],
+        "responses": {
+          "200": {
+            "description": "Tag response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Tag"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/teams": {
+      "post": {
+        "description": "Create a team.",
+        "operationId": "createTeam",
+        "tags": [
+          "Team"
+        ],
+        "responses": {
+          "201": {
+            "description": "Team response",
+            "schema": {
+              "$ref": "#/definitions/Team"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/teams/{slug}": {
+      "get": {
+        "summary": "Get a teams",
+        "description": "Get a teams object by slug.",
+        "operationId": "getTeam",
+        "tags": [
+          "Team"
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "Team slug",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Team response",
+            "schema": {
+              "$ref": "#/definitions/Team"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/team": {
+      "get": {
+        "description": "Get the current team object.",
+        "operationId": "getCurrentTeam",
+        "tags": [
+          "Team"
+        ],
+        "responses": {
+          "200": {
+            "description": "Team response",
+            "schema": {
+              "$ref": "#/definitions/Team"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update the current team object.",
+        "operationId": "updateCurrentTeam",
+        "tags": [
+          "Team"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "TeamInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TeamInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Team response",
+            "schema": {
+              "$ref": "#/definitions/Team"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/team/members": {
+      "get": {
+        "description": "Get all members belonging to the current team.",
+        "operationId": "getCurrentTeamMembers",
+        "tags": [
+          "Team"
+        ],
+        "responses": {
+          "200": {
+            "description": "TeamMember response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TeamMember"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/team/members/{user_id}": {
+      "get": {
+        "summary": "Get a team member",
+        "description": "Get a single team member object by it's corresponding user ID.",
+        "operationId": "getCurrentTeamMember",
+        "tags": [
+          "Team"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User user_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TeamMember response",
+            "schema": {
+              "$ref": "#/definitions/TeamMember"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a team member",
+        "description": "Update a single team member object.",
+        "operationId": "updateCurrentTeamMember",
+        "tags": [
+          "Team"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User user_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "TeamMember request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TeamMember"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TeamMember response",
+            "schema": {
+              "$ref": "#/definitions/TeamMember"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/team/members/invite": {
+      "post": {
+        "summary": "Invite team member",
+        "description": "Invite a member to the current team.",
+        "operationId": "inviteCurrentTeamMember",
+        "tags": [
+          "Team"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "TeamMember request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TeamMember"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TeamMember response",
+            "schema": {
+              "$ref": "#/definitions/TeamMember"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/developers": {
+      "get": {
+        "description": "Get all developers on the system.",
+        "operationId": "getDevelopers",
+        "tags": [
+          "Developer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Developer response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Developer"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/developers/{id}": {
+      "get": {
+        "summary": "Get a developer",
+        "description": "Get a developer object by user ID.",
+        "operationId": "getDeveloper",
+        "tags": [
+          "Developer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Developer id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Developer response",
+            "schema": {
+              "$ref": "#/definitions/Developer"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/developers/{id}/addons": {
+      "get": {
+        "summary": "Get developer addons",
+        "description": "Get all addons for a specific developer.",
+        "operationId": "getDeveloperAddons",
+        "tags": [
+          "Developer",
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Developer id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Addon response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Addon"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/developers/{id}/actions": {
+      "get": {
+        "summary": "Get developer actions",
+        "description": "Get all actions for a specific developer.",
+        "operationId": "getDeveloperActions",
+        "tags": [
+          "Developer",
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Developer id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Action"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/chats": {
+      "post": {
+        "summary": "Create chat room",
+        "description": "Create a chat room with multiple users.",
+        "operationId": "createChat",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "ChatInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChatInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Chat response",
+            "schema": {
+              "$ref": "#/definitions/Chat"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get chat rooms",
+        "description": "Get all chat rooms.",
+        "operationId": "getChats",
+        "tags": [
+          "Chat"
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Chat"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/chats/initiate": {
+      "post": {
+        "summary": "Get or create chat room",
+        "description": "Get or create a chat room with multiple given users.",
+        "operationId": "initiateChat",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "ChatInitiateInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChatInitiateInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat response",
+            "schema": {
+              "$ref": "#/definitions/Chat"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/chats/{id}": {
+      "get": {
+        "summary": "Get chat",
+        "description": "Get a single chat object by it's ID.",
+        "operationId": "getChat",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Chat id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat response",
+            "schema": {
+              "$ref": "#/definitions/Chat"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update chat",
+        "description": "Update a chat object.",
+        "operationId": "updateChat",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Chat id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "ChatInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChatInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat response",
+            "schema": {
+              "$ref": "#/definitions/Chat"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete chat",
+        "description": "Delete a chat object.",
+        "operationId": "deleteChat",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Chat id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Chat request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Chat"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat response",
+            "schema": {
+              "$ref": "#/definitions/Chat"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/chats/{chat_id}/messages": {
+      "get": {
+        "summary": "Get chat messages",
+        "description": "Get all messages belonging to the given chat.",
+        "operationId": "getChatMessages",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "Chat chat_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Message"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create create message",
+        "description": "Create a chat and send it to the chat participants.",
+        "operationId": "createChatMessage",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "Chat chat_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "MessageInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MessageInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Message response",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/chats/{chat_id}/messages/{id}": {
+      "get": {
+        "summary": "Get chat message",
+        "description": "Get a chat message belonging to the given chat.",
+        "operationId": "getChatMessage",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "Chat chat_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Message id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message response",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete chat message",
+        "description": "Delete a chat message belonging to the given chat.",
+        "operationId": "deleteChatMessage",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "Chat chat_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Message id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message response",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/chats/{chat_id}/users": {
+      "get": {
+        "summary": "Get chat users",
+        "description": "Get all users participating in the given chat.",
+        "operationId": "getChatUsers",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "Chat chat_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ChatUser response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ChatUser"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create chat user",
+        "description": "Create and add a user to the chat.",
+        "operationId": "createChatUser",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "Chat chat_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "UserID request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserID"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ChatUser response",
+            "schema": {
+              "$ref": "#/definitions/ChatUser"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/chats/{chat_id}/users/{user_id}": {
+      "delete": {
+        "summary": "Delete chat user",
+        "description": "Delete a chat user.",
+        "operationId": "deleteChatUser",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "description": "Chat chat_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User user_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ChatUser response",
+            "schema": {
+              "$ref": "#/definitions/ChatUser"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/messages": {
+      "post": {
+        "description": "Create and send a chat message to the receiver.",
+        "operationId": "createMessage",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "MessageInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MessageInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Message response",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/messages/{id}": {
+      "delete": {
+        "summary": "Delete message",
+        "description": "Delete a message object.",
+        "operationId": "deleteMessage",
+        "tags": [
+          "Message"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Message id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Message request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message response",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/messages/recent": {
+      "get": {
+        "summary": "Get recent chat messages",
+        "description": "Get recent chat messages for the current account scope.",
+        "operationId": "getRecentMessages",
+        "tags": [
+          "Chat"
+        ],
+        "responses": {
+          "200": {
+            "description": "Message response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Message"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons": {
+      "get": {
+        "summary": "Get all addons",
+        "description": "Get all addons available for install by the current team or user.",
+        "operationId": "getAddons",
+        "tags": [
+          "Addon"
+        ],
+        "responses": {
+          "200": {
+            "description": "Addon response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Addon"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/recommended": {
+      "get": {
+        "summary": "Get recommended addons",
+        "description": "Get all recommended addons available for install by the current team or user.",
+        "operationId": "getRecommendedAddons",
+        "tags": [
+          "Addon"
+        ],
+        "responses": {
+          "200": {
+            "description": "Addon response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Addon"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/popular": {
+      "get": {
+        "summary": "Get popular addons",
+        "description": "Get all addons in order of popularity.",
+        "operationId": "getPopularAddons",
+        "tags": [
+          "Addon"
+        ],
+        "responses": {
+          "200": {
+            "description": "Addon response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Addon"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/search/{term}": {
+      "get": {
+        "summary": "Search addons",
+        "description": "Get all addons matching the given search term.",
+        "operationId": "searchAddons",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "term",
+            "in": "path",
+            "description": "Addon term",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Addon response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Addon"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/installed": {
+      "get": {
+        "summary": "Get installed addons",
+        "description": "Get all addons installed for the current team or user.",
+        "operationId": "getAddonInstalls",
+        "tags": [
+          "Addon"
+        ],
+        "responses": {
+          "200": {
+            "description": "Addon response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Addon"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/{package}": {
+      "get": {
+        "summary": "Get an addon",
+        "description": "Get an addon by it's package name.",
+        "operationId": "getAddon",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Addon response",
+            "schema": {
+              "$ref": "#/definitions/Addon"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/{package}/addons": {
+      "get": {
+        "summary": "Get addon actions",
+        "description": "Get all actions for an addon.",
+        "operationId": "getAddonActions",
+        "tags": [
+          "Addon",
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Action"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/{package}/report": {
+      "post": {
+        "summary": "Report addon as inappropriate",
+        "description": "Report addon as inappropriate.",
+        "operationId": "reportAddon",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/{package}/install": {
+      "post": {
+        "summary": "Install addon",
+        "description": "Install an addon.",
+        "operationId": "installAddon",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Addon request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Addon"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Addon response",
+            "schema": {
+              "$ref": "#/definitions/Addon"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update installed addon",
+        "description": "Update an installed addon.",
+        "operationId": "updateAddonInstall",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Addon response",
+            "schema": {
+              "$ref": "#/definitions/Addon"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get installed addon",
+        "description": "Get an installed addon.",
+        "operationId": "getAddonInstall",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Addon response",
+            "schema": {
+              "$ref": "#/definitions/Addon"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete installed addon",
+        "description": "Delete an installed addon.",
+        "operationId": "deleteAddonInstall",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Addon response",
+            "schema": {
+              "$ref": "#/definitions/Addon"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/{package}/install/settings": {
+      "get": {
+        "summary": "Get all addon settings",
+        "description": "Get all addon settings objects.",
+        "operationId": "getAddonSettings",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Setting response",
+            "schema": {
+              "$ref": "#/definitions/Setting"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/{package}/install/settings/{name}": {
+      "post": {
+        "summary": "Update addon settings",
+        "description": "Update an addon settings object.",
+        "operationId": "updateAddonSetting",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Setting name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Setting request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Setting"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Addon response",
+            "schema": {
+              "$ref": "#/definitions/Addon"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete addon settings",
+        "description": "Delete an addon settings object.",
+        "operationId": "deleteAddonSetting",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Setting name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Setting response",
+            "schema": {
+              "$ref": "#/definitions/Setting"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get addon settings",
+        "description": "Get an addon settings object.",
+        "operationId": "getAddonSetting",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Setting name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Setting response",
+            "schema": {
+              "$ref": "#/definitions/Setting"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/{package}/install/permissions": {
+      "get": {
+        "summary": "Get addon permissions",
+        "description": "Get all addon permission objects.",
+        "operationId": "getAddonPermissions",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission response",
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/addons/{package}/install/permissions/{name}": {
+      "put": {
+        "summary": "Update addon permission",
+        "description": "Update an addon permission object.",
+        "operationId": "updateAddonPermission",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Permission name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Permission request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission response",
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get addon permission",
+        "description": "Get an addon permission object.",
+        "operationId": "getAddonPermission",
+        "tags": [
+          "Addon"
+        ],
+        "parameters": [
+          {
+            "name": "package",
+            "in": "path",
+            "description": "Addon package",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Permission name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission response",
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/actions": {
+      "get": {
+        "summary": "Get all actions",
+        "description": "Get all available actions.",
+        "operationId": "getActions",
+        "tags": [
+          "Action"
+        ],
+        "responses": {
+          "200": {
+            "description": "Action response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Action"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/actions/popular": {
+      "get": {
+        "summary": "Get popular actions",
+        "description": "Get all actions in order of popularity.",
+        "operationId": "getPopularActions",
+        "tags": [
+          "Action"
+        ],
+        "responses": {
+          "200": {
+            "description": "Action response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Action"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/actions/{id}/install": {
+      "post": {
+        "summary": "Install action",
+        "description": "Install an action for the current current team or user.",
+        "operationId": "installAction",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Action response",
+            "schema": {
+              "$ref": "#/definitions/Action"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete installed action",
+        "description": "Delete an action installed for the current current team or user.",
+        "operationId": "deleteAction",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action response",
+            "schema": {
+              "$ref": "#/definitions/Action"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get installed action",
+        "description": "Get an action installed for the current current team or user.",
+        "operationId": "getActionInstall",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action response",
+            "schema": {
+              "$ref": "#/definitions/Action"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/actions/{id}/install/run": {
+      "get": {
+        "summary": "Run an action",
+        "description": "Run an installed action.",
+        "operationId": "runActionInstall",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "TriggerData request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TriggerData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action response",
+            "schema": {
+              "$ref": "#/definitions/Action"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/actions/{id}/install/history": {
+      "get": {
+        "summary": "Get action event history",
+        "description": "Get history for an installed action.",
+        "operationId": "getActionInstallHistory",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AuditLog response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AuditLog"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/actions/{id}/install/settings": {
+      "get": {
+        "summary": "Get all action settings",
+        "description": "Get all action settings objects.",
+        "operationId": "getActionSettings",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Setting response",
+            "schema": {
+              "$ref": "#/definitions/Setting"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/actions/{id}/install/settings/{name}": {
+      "post": {
+        "summary": "Update action settings",
+        "description": "Update an action settings object.",
+        "operationId": "updateActionSetting",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Setting name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Setting request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Setting"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Action response",
+            "schema": {
+              "$ref": "#/definitions/Action"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete action settings",
+        "description": "Delete an action settings object.",
+        "operationId": "deleteActionSetting",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Setting name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Setting response",
+            "schema": {
+              "$ref": "#/definitions/Setting"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get action settings",
+        "description": "Get an action settings object.",
+        "operationId": "getActionSetting",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Setting name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Setting response",
+            "schema": {
+              "$ref": "#/definitions/Setting"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/actions/{id}/install/permissions": {
+      "get": {
+        "summary": "Get action permissions",
+        "description": "Get all action permission objects.",
+        "operationId": "getActionPermissions",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission response",
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/actions/{id}/install/permissions/{name}": {
+      "put": {
+        "summary": "Update action permission",
+        "description": "Update an action permission object.",
+        "operationId": "updateActionPermission",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Permission name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Permission request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission response",
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get action permission",
+        "description": "Get an action permission object.",
+        "operationId": "getActionPermission",
+        "tags": [
+          "Action"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Action id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Permission name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission response",
+            "schema": {
+              "$ref": "#/definitions/Permission"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/fragments": {
+      "get": {
+        "summary": "Get fragments",
+        "description": "Get all fragments.",
+        "operationId": "getFragments",
+        "tags": [
+          "Fragment"
+        ],
+        "responses": {
+          "200": {
+            "description": "Fragment response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Fragment"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create an fragment",
+        "description": "Create an fragment",
+        "operationId": "createFragment",
+        "tags": [
+          "Fragment"
+        ],
+        "responses": {
+          "201": {
+            "description": "Fragment response",
+            "schema": {
+              "$ref": "#/definitions/Fragment"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "FragmentInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FragmentInput"
+            }
+          }
+        ]
+      }
+    },
+    "/fragments/{id}": {
+      "get": {
+        "summary": "Get an fragment",
+        "description": "Get an fragment object.",
+        "operationId": "getFragment",
+        "tags": [
+          "Fragment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Fragment id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fragment response",
+            "schema": {
+              "$ref": "#/definitions/Fragment"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an fragment",
+        "description": "Update an fragment object.",
+        "operationId": "updateFragment",
+        "tags": [
+          "Fragment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Fragment id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "FragmentInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FragmentInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fragment response",
+            "schema": {
+              "$ref": "#/definitions/Fragment"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an fragment",
+        "description": "Delete an fragment object.",
+        "operationId": "deleteFragment",
+        "tags": [
+          "Fragment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Fragment id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fragment response",
+            "schema": {
+              "$ref": "#/definitions/Fragment"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/contacts": {
+      "post": {
+        "summary": "Create contact",
+        "description": "Create a contact for a user that may not already exist on Tommy. The created user will be invited to join the current user or team.",
+        "operationId": "createContact",
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "ContactRequest request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ContactRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Contact response",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get contacts",
+        "description": "Get all contacts belonging to the current account.",
+        "operationId": "getContacts",
+        "tags": [
+          "Contact"
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Contact"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/contacts/{friend_id}": {
+      "get": {
+        "summary": "Get a contact",
+        "description": "Get a contact object by friend user ID.",
+        "operationId": "getContact",
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "friend_id",
+            "in": "path",
+            "description": "User friend_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact response",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a contact",
+        "description": "Update a single contact object.",
+        "operationId": "updateContact",
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "friend_id",
+            "in": "path",
+            "description": "User friend_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contact request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact response",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/contacts/import": {
+      "post": {
+        "summary": "Import bulk contacts",
+        "description": "Import bulk contacts from a mobile phone or other device. Imported contacts must provide `first_name` and `mobile` or `email` parameters.",
+        "operationId": "importContacts",
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Users request",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Contact response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Contact"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/contacts/{friend_id}/add": {
+      "post": {
+        "summary": "Send contact request",
+        "description": "Send a contact request to join the given user or team.",
+        "operationId": "addContact",
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "friend_id",
+            "in": "path",
+            "description": "User friend_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "TeamID request",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/TeamID"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Contact response",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/contacts/{friend_id}/invite": {
+      "post": {
+        "summary": "Invite contact",
+        "description": "Invite the given user to become a contact of the current user or team.",
+        "operationId": "inviteContact",
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "friend_id",
+            "in": "path",
+            "description": "User friend_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Contact response",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/contacts/{friend_id}/accept": {
+      "post": {
+        "summary": "Accept contact request",
+        "description": "Accept an incoming contact request from the given user.",
+        "operationId": "acceptContact",
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "friend_id",
+            "in": "path",
+            "description": "User friend_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "TeamIDs request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TeamIDs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact response",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/contacts/{friend_id}/decline": {
+      "post": {
+        "summary": "Reject contact request",
+        "description": "Reject an incoming contact request from the given user.",
+        "operationId": "declineContact",
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "friend_id",
+            "in": "path",
+            "description": "User friend_id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact response",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/invitations": {
+      "get": {
+        "description": "Get all invitations associated with the current account.",
+        "operationId": "getInvitations",
+        "tags": [
+          "Invitation"
+        ],
+        "responses": {
+          "200": {
+            "description": "Invitation response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Invitation"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create invitation",
+        "description": "Create an invitation link for a member or non-menmer to connect with the current user or team.",
+        "operationId": "createInvitation",
+        "tags": [
+          "Invitation"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "InvitationInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InvitationInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Invitation response",
+            "schema": {
+              "$ref": "#/definitions/Invitation"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/invitations/{token}": {
+      "get": {
+        "summary": "Get invitations",
+        "description": "Get an invitations object by token.",
+        "operationId": "getInvitation",
+        "tags": [
+          "Invitation"
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "Invitation slug",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invitation response",
+            "schema": {
+              "$ref": "#/definitions/Invitation"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/invitations/{token}/accept": {
+      "get": {
+        "summary": "Accept an invitation",
+        "description": "Accept an invitation belonging to the given token.",
+        "operationId": "acceptInvitation",
+        "tags": [
+          "Invitation"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "Invitation token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invitation response",
+            "schema": {
+              "$ref": "#/definitions/Invitation"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/invitations/{token}/decline": {
+      "get": {
+        "summary": "Reject an invitation",
+        "description": "Reject an invitation belonging to the given token.",
+        "operationId": "declineInvitation",
+        "tags": [
+          "Invitation"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "Invitation token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invitation response",
+            "schema": {
+              "$ref": "#/definitions/Invitation"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "summary": "Get events",
+        "description": "Get all events.",
+        "operationId": "getEvents",
+        "tags": [
+          "Event"
+        ],
+        "responses": {
+          "200": {
+            "description": "Event response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Event"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create an event",
+        "description": "Create an event",
+        "operationId": "createEvents",
+        "tags": [
+          "Event"
+        ],
+        "responses": {
+          "201": {
+            "description": "Event response",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "EventInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventInput"
+            }
+          }
+        ]
+      }
+    },
+    "/events/{id}": {
+      "get": {
+        "summary": "Get an event",
+        "description": "Get an event object.",
+        "operationId": "getEvent",
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Event id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event response",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an event",
+        "description": "Update an event object.",
+        "operationId": "updateEvent",
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Event id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "EventInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event response",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an event",
+        "description": "Delete an event object.",
+        "operationId": "deleteEvent",
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Event id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event response",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "summary": "Login",
+        "description": "This method handles users who are \\\n              authenticating with an email or phone, and password combination.",
+        "operationId": "login",
+        "tags": [
+          "User",
+          "Session"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "UserCredentials request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCredentials"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User response",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Logout",
+        "description": "This method destroys the current user session.",
+        "operationId": "logout",
+        "tags": [
+          "User",
+          "Session"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/geolocations": {
+      "get": {
+        "summary": "Get geolocations",
+        "description": "Get all geolocation objects.",
+        "operationId": "getGeolocations",
+        "tags": [
+          "Geolocation"
+        ],
+        "responses": {
+          "200": {
+            "description": "Geolocation response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Geolocation"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create geolocation",
+        "description": "Create a geolocation object",
+        "operationId": "createGeolocation",
+        "tags": [
+          "Geolocation"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "GeolocationInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GeolocationInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Geolocation response",
+            "schema": {
+              "$ref": "#/definitions/Geolocation"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/geolocations/{id}": {
+      "get": {
+        "summary": "Get geolocation",
+        "description": "Get a geolocation object.",
+        "operationId": "getGeolocation",
+        "tags": [
+          "Geolocation"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Geolocation id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Geolocation response",
+            "schema": {
+              "$ref": "#/definitions/Geolocation"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update geolocation",
+        "description": "Update a geolocation object.",
+        "operationId": "updateGeolocation",
+        "tags": [
+          "Geolocation"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Geolocation id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "GeolocationInput request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GeolocationInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Geolocation response",
+            "schema": {
+              "$ref": "#/definitions/Geolocation"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete geolocation",
+        "description": "Delete a geolocation object.",
+        "operationId": "deleteGeolocation",
+        "tags": [
+          "Geolocation"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Geolocation id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Geolocation response",
+            "schema": {
+              "$ref": "#/definitions/Geolocation"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/devices": {
+      "post": {
+        "summary": "Register a device",
+        "description": "Register a mobile device for push notifications.",
+        "operationId": "registerDevice",
+        "tags": [
+          "Device"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Device request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device response",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/devices/{uuid}": {
+      "delete": {
+        "summary": "Delete a device",
+        "description": "Delete a mobile device.",
+        "operationId": "deleteDevice",
+        "tags": [
+          "Device"
+        ],
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "description": "Device uuid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "properties": {
+        "address_line1": {
+          "type": "string"
+        },
+        "address_line2": {
+          "type": "string"
+        },
+        "address_city": {
+          "type": "string"
+        },
+        "address_postcode": {
+          "type": "string"
+        },
+        "address_state": {
+          "type": "string"
+        },
+        "country_id": {
+          "type": "string"
+        }
+      }
+    },
+    "Account": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "team_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "contact_name": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "icon_url": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "notification_count": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "description": "A representation of a User",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "dob": {
+          "type": "string"
+        },
+        "locale": {
+          "type": "string"
+        },
+        "icon_url": {
+          "type": "string"
+        }
+      }
+    },
+    "UserInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/User"
+        },
+        {
+          "properties": {
+            "photo": {
+              "type": "string",
+              "format": "binary"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "UserID": {
+      "type": "object",
+      "description": "User ID parameter",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Team": {
+      "type": "object",
+      "description": "A representation of a Team",
+      "required": [
+        "id",
+        "user_id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string",
+          "format": "binary"
+        },
+        "icon_url": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        }
+      }
+    },
+    "TeamInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Team"
+        }
+      ]
+    },
+    "TeamID": {
+      "properties": {
+        "team_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "TeamIDs": {
+      "properties": {
+        "team_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "Tag": {
+      "type": "array",
+      "description": "A representation of a Tag",
+      "items": {
+      }
+    },
+    "TeamMemberInput": {
+      "type": "object",
+      "description": "Object for creating or updating a Team Member",
+      "required": [
+        "user_id",
+        "team_id"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "team_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "favorite": {
+          "type": "boolean"
+        },
+        "mute": {
+          "type": "boolean"
+        },
+        "photo": {
+          "type": "string",
+          "format": "binary"
+        },
+        "roles": {
+          "type": "array",
+          "description": "Array of roles assigned to the Team Member",
+          "items": {
+            "type": "string"
+          }
+        },
+        "locations": {
+          "type": "array",
+          "description": "Array of locations assigned to the Team Member",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "Array of tags assigned to the Team Member",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "TeamMember": {
+      "type": "object",
+      "description": "Object that represents a Team Member",
+      "required": [
+        "user_id",
+        "team_id"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/TeamMemberInput"
+        },
+        {
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "user_id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "team_id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "mobile": {
+              "type": "string"
+            },
+            "manager": {
+              "type": "boolean"
+            },
+            "member": {
+              "type": "boolean",
+              "description": "True when the team member has signed up to Tommy"
+            },
+            "status": {
+              "type": "string"
+            },
+            "icon_url": {
+              "type": "string"
+            },
+            "addon_links": {
+              "type": "array",
+              "description": "Array of profile links accessible by the current User on the Team Member profile",
+              "items": {
+                "$ref": "#/definitions/AddonLink"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "DeveloperInput": {
+      "type": "object",
+      "description": "Object representing a Tommy developer",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        }
+      }
+    },
+    "Developer": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/DeveloperInput"
+        },
+        {
+          "properties": {
+            "icon_url": {
+              "type": "string"
+            },
+            "addons": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Addon"
+              }
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Action"
+              }
+            },
+            "solutions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Solution"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Solution": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "developer_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Chat": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The user ID of the chat owner."
+        },
+        "team_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The team ID."
+        },
+        "title": {
+          "type": "string",
+          "description": "The chat room title."
+        },
+        "group": {
+          "type": "boolean"
+        },
+        "favorite": {
+          "type": "boolean"
+        },
+        "mute": {
+          "type": "boolean"
+        },
+        "unread_messages_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChatUser"
+          }
+        }
+      }
+    },
+    "ChatInput": {
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The chat room title."
+        },
+        "group": {
+          "type": "boolean"
+        },
+        "favorite": {
+          "type": "boolean"
+        },
+        "mute": {
+          "type": "boolean"
+        },
+        "user_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "ChatInitiateInput": {
+      "required": [
+        "user_ids"
+      ],
+      "description": "Array of user IDs to initiate the chat with.",
+      "properties": {
+        "user_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "ChatUser": {
+      "required": [
+        "chat_id",
+        "user_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "chat_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "icon_url": {
+          "type": "string"
+        },
+        "deleted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MessageInput": {
+      "required": [
+        "sender_id",
+        "body"
+      ],
+      "properties": {
+        "chat_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sender_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "receiver_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "body": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "send_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time in the future to send the message"
+        }
+      }
+    },
+    "Message": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MessageInput"
+        },
+        {
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "chat_title": {
+              "type": "string"
+            },
+            "sender_first_name": {
+              "type": "string"
+            },
+            "sender_last_name": {
+              "type": "string"
+            },
+            "sender_icon_url": {
+              "type": "string"
+            },
+            "sent_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      ]
+    },
+    "AddonView": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "icon_url": {
+          "type": "string"
+        },
+        "framed": {
+          "type": "boolean"
+        },
+        "default": {
+          "type": "boolean"
+        }
+      }
+    },
+    "AddonLink": {
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "package": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "icon_url": {
+          "type": "string"
+        }
+      }
+    },
+    "Addon": {
+      "required": [
+        "id",
+        "user_id",
+        "package"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "developer_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "package": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "homepage": {
+          "type": "string"
+        },
+        "icon_url": {
+          "type": "string"
+        },
+        "file_base_url": {
+          "type": "string"
+        },
+        "installed": {
+          "type": "boolean"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "roles": {
+          "type": "array",
+          "description": "Array of roles required to install this addon.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "input_devices": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "views": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AddonView"
+          }
+        }
+      }
+    },
+    "AuditLog": {
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "team_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "error": {
+          "type": "string"
+        }
+      }
+    },
+    "Activity": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "action_version_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Trigger": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "action_version_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Action": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "developer_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "action_version_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "author": {
+          "type": "string"
+        },
+        "trigger": {
+          "$ref": "#/definitions/Trigger"
+        },
+        "activity": {
+          "$ref": "#/definitions/Activity"
+        },
+        "dependencies": {
+          "type": "object"
+        },
+        "name": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "icon_url": {
+          "type": "string"
+        },
+        "installed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "TriggerData": {
+      "properties": {
+        "trigger_data": {
+          "type": "object",
+          "description": "Trigger data object"
+        }
+      }
+    },
+    "Setting": {
+      "required": [
+        "user_id",
+        "data"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "account_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "account_type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "description": "Setting data as JSON."
+        }
+      }
+    },
+    "SettingData": {
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "Setting data as JSON, boolean, integer or string."
+        }
+      }
+    },
+    "FragmentInput": {
+      "type": "object",
+      "description": "Object for creating or updating an Fragment.",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Fragment": {
+      "type": "object",
+      "description": "Object that represents an Fragment.",
+      "required": [
+        "user_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "team_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "addons_install_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "resource_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "resource_type": {
+          "type": "string"
+        }
+      }
+    },
+    "ContactInput": {
+      "type": "object",
+      "description": "A representation of a Contact",
+      "required": [
+        "friend_id"
+      ],
+      "properties": {
+        "friend_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Friend user ID"
+        },
+        "favorite": {
+          "type": "boolean"
+        },
+        "mute": {
+          "type": "boolean"
+        },
+        "personal": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Contact": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContactInput"
+        },
+        {
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "type": {
+              "type": "string"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "icon_url": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "mobile": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "member": {
+              "type": "boolean",
+              "description": "True when the friend has signed up to Tommy"
+            },
+            "last_online_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      ]
+    },
+    "ContactRequest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/User"
+        },
+        {
+          "$ref": "#/definitions/TeamIDs"
+        },
+        {
+          "properties": {
+            "via": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "InvitationInput": {
+      "type": "object",
+      "description": "Object for creating an Invitation.",
+      "properties": {
+        "friend_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "invitee_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "invitee_type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Invitation": {
+      "type": "object",
+      "description": "Invitation for a user to join Tommy",
+      "required": [
+        "token",
+        "user_id"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvitationInput"
+        },
+        {
+          "properties": {
+            "user_id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "team_id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "inviter": {
+              "$ref": "#/definitions/Account"
+            },
+            "invitee": {
+              "$ref": "#/definitions/Account"
+            },
+            "contact": {
+              "$ref": "#/definitions/Contact"
+            },
+            "token": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "link": {
+              "type": "string"
+            },
+            "times_sent": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "sent_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "accepted_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      ]
+    },
+    "EventInput": {
+      "type": "object",
+      "description": "Object for creating or updating an Event.",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        }
+      }
+    },
+    "Event": {
+      "type": "object",
+      "description": "Object that represents an Event.",
+      "required": [
+        "user_id"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EventInput"
+        },
+        {
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "user_id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "team_id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "addons_install_id": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+    "UserCredentials": {
+      "type": "object",
+      "description": "User login credentials",
+      "required": [
+        "login",
+        "password"
+      ],
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Permission": {
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "hint": {
+          "type": "string"
+        },
+        "resource_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "resource_type": {
+          "type": "string"
+        },
+        "user_ids": {
+          "type": "array",
+          "description": "Array of User IDs with access",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "roles": {
+          "type": "array",
+          "description": "Array of roles assigned with access",
+          "items": {
+            "type": "string"
+          }
+        },
+        "locations": {
+          "type": "array",
+          "description": "Array of locations assigned with access",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "Array of tags assigned with access",
+          "items": {
+            "type": "string"
+          }
+        },
+        "operations": {
+          "type": "array",
+          "description": "Array of permissable operations",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "GeolocationInput": {
+      "type": "object",
+      "description": "Object for creating or updating an Geolocation.",
+      "properties": {
+        "latitude": {
+          "type": "integer",
+          "format": "float"
+        },
+        "longitude": {
+          "type": "integer",
+          "format": "float"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        }
+      }
+    },
+    "Geolocation": {
+      "type": "object",
+      "description": "Object that represents an Geolocation.",
+      "required": [
+        "id",
+        "user_id"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/GeolocationInput"
+        },
+        {
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "user_id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "team_id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "addons_install_id": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+    "Device": {
+      "type": "object",
+      "description": "User device",
+      "required": [
+        "user_id",
+        "platform",
+        "uuid"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "platform": {
+          "type": "string",
+          "enum": [
+            "ios",
+            "android"
+          ],
+          "description": "Device platform type"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "development",
+            "production"
+          ],
+          "description": "Device build environment"
+        },
+        "uuid": {
+          "type": "string",
+          "description": "Device UUID"
+        },
+        "token": {
+          "type": "string",
+          "description": "Device token"
+        }
+      }
+    },
+    "Error": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
