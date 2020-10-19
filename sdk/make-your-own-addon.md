@@ -45,7 +45,9 @@ computed: {
 
 ### Requesting kiosk mode
 
-Locking an addon is usually performed on an addons settings page via a tommy link. Once an addon is locked, we are redirected to a pin code page. Success entry of the pin code will redirect to the index view where the `isLocked` computed variable will be true. 
+Locking an addon is usually performed on an addons settings page via a tommy link and is done by a Team Manager or Team Admin. Click on the tommy link and then click the `Confirm` button. 
+
+Once an addon is locked, we are redirected to a pin code page. Success entry of the pin code will redirect to the index view where the `isLocked` computed variable will be true. 
 
 ```
 <a href="tommy://lock?addon=addon_package&showmenu=true">
@@ -56,3 +58,7 @@ Lock this mini program so that team members can interact with it by entering a p
 #### Tommy link variables
 * **addon**: (String) The package name of the addon.
 * **showmenu** (Boolean) Will show the orange slide out menu if true. If false, a settings icon will appear at the bottom left of the screen. Defaults to true.
+
+### Unlocking an addon
+
+To unlock an addon, open the side menu, then click on the `Unlock` button. Now enter in your `Email or phone number` and `Password` to unlock the device. 
