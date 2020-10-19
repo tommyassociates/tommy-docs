@@ -120,5 +120,6 @@ Each addon may contain multiple views to be exposed on the interface. Views are 
 * **index**: (Boolean) Set to true for the main view that will be loaded when the addon is started.
 * **framed**: (Boolean) Weather or not the view should be loaded inside an iframe.
 * **roles**: (Array) Can be any role that has been dynamically assigned to a team member, or one of the built in roles: "Team Member", "Team Manager", "Team Admin"
+* **lockable**: (Boolean) Allows the index view to show a locked layout. 
 
 If you want your view to be framed inside an `iframe`, you can do so by specifying the `framed: true` option. This is good for securing your view data, but be aware that since your view will be running in a sandboxed environment, none of the Tommy environment, API instance, or CSS styles will be available for use.
