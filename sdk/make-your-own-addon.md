@@ -68,7 +68,7 @@ Lock this mini program so that team members can interact with it by entering a p
 
 Note: While locked to Kiosk Mode, Messages are removed from the device and it is disconnected from receiving new messages / the login credential used to lock the device cannot operate anything external to the Mini Program experience being locked.
 
-'isLocked' is passed into the Mini Program to allow you to define experiences specifically for display while the Kiosk Mode is active.
+`isLocked` is passed into the Mini Program to allow you to define experiences specifically for display while the Kiosk Mode is active.
 
 ### Unlocking an addon
 
