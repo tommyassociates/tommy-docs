@@ -45,9 +45,7 @@ computed: {
 
 ### Requesting kiosk mode
 
-Locking an addon is usually performed on an addons settings page via a tommy link and is done by a Team Manager or Team Admin. Click on the tommy link and then click the `Confirm` button. 
-
-Once an addon is locked, we are redirected to a pin code page. Success entry of the pin code will redirect to the index view where the `isLocked` computed variable will be true. 
+Kiosk Mode can be initiated from within any Mini Program. It is recommended that Kiosk Mode initiation link be limited to views specifically designed for the Team Admin such as a settings page, as while anyone can "lock" a device into Kiosk Mode, a Team Admin credential will be required to "unlock" the device.
 
 ```
 <a href="tommy://lock?addon=addon_package&showmenu=true">
@@ -55,9 +53,22 @@ Lock this mini program so that team members can interact with it by entering a p
 </a>
 ```
 
+#### User Experience
+
+* User clicks the Link within your Mini Program.
+
+* User is shown the left menu sliding out and presenting a confirmation screen that your Mini Program is requesting the device to the Locked into Kiosk Mode.
+
+* User can either cancel and return to your Mini Program, or Confirm and the App will be refreshed so that any relevant Kiosk Mode only experience can be displayed.
+
 #### Tommy link variables
 * **addon**: (String) The package name of the addon.
+
 * **showmenu** (Boolean) Will show the orange slide out menu if true. If false, a settings icon will appear at the bottom left of the screen. Defaults to true.
+
+Note: While locked to Kiosk Mode, Messages are removed from the device and it is disconnected from receiving new messages / the login credential used to lock the device cannot operate anything external to the Mini Program experience being locked.
+
+'isLocked' is passed into the Mini Program to allow you to define experiences specifically for display while the Kiosk Mode is active.
 
 ### Unlocking an addon
 
