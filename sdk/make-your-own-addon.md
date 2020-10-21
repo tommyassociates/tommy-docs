@@ -72,4 +72,6 @@ Note: While locked to Kiosk Mode, Messages are removed from the device and it is
 
 ### Unlocking an addon
 
-To unlock an addon, open the side menu, then click on the `Unlock` button. Now enter in your `Email or phone number` and `Password` to unlock the device. 
+To unlock an addon, open the side menu, then click on the `Unlock` button. Now enter in your `Email or phone number` and `Password` to unlock the device.
+
+ 
