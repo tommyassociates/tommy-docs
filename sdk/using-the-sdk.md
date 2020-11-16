@@ -2,7 +2,6 @@
 
 The SDK contains a number of tools for the purpose of building Tommy addons.
 
-
 ### Using the Emulator
 
 The core of the SDK is an emulator which emulates the Tommy app environment on your local machine. This lets you develop addons for Tommy that will integrate seamlessly with the live app when you package and release them.
