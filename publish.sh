@@ -1,6 +1,6 @@
-gitbook build
-cp -R _book/* publish
-cd publish
+# gitbook build
+# cp -R _book/* publish
+# cd publish
 # git init
 git add -A
 git commit -m 'Update docs'

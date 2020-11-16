@@ -15,9 +15,9 @@ _book
 *.mobi
 *.pdf
 
+# Editors
+.idea
+
 /bak
 /api
 /publish
-
-#editors
-.idea
