@@ -1,0 +1,11 @@
+# Tommy
+
+> Tommy developer documentation.
+
+## Documentation
+
+- [Introduction](/introduction): Tommy developer documentation.
+
+## MCP Server
+
+- [tommy](/mcp): Tommy workforce management MCP server. This reference is a placeholder for the RubyLLM and MCP switchover; tools, resources, and prompts will be populated from the Rails MCP registry.

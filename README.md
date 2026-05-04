@@ -1,19 +1,14 @@
 # Tommy Documentation
 
-This repo contains the Tommy developer documentation in GitBook format.
+This repo contains the Tommy developer documentation, built with Sourcey.
 
-The start the gitbook use the following command:
-
+```bash
+npm install
+npm run dev
+npm run build
 ```
-# install gitbook
-npm install -g gitbook-cli
 
-# start the local gitbook server
-gitbook serve
-
-# build the gitbook
-gitbook build
-```
+The initial Sourcey surface is the MCP server reference tab. The legacy SDK markdown files remain in this repository until they are intentionally migrated into the Sourcey navigation.
 
 ## Obtain your API key
 
@@ -21,11 +16,7 @@ Please contact developers@mytommy.com in order to obtain your API key.
 
 ## Deployment
 
-To deploy the docs to GitHub Pages use the following command:
-
-```
-./publish.sh
-```
+The Sourcey build writes static output to `dist/`.
 
 ## Bug Reports
 

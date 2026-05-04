@@ -1,0 +1,28 @@
+{
+  "mcpSpec": "0.2.0",
+  "mcpVersion": "2025-11-25",
+  "server": {
+    "name": "tommy",
+    "version": "0.1.0"
+  },
+  "description": "Tommy workforce management MCP server. This reference is a placeholder for the RubyLLM and MCP switchover; tools, resources, and prompts will be populated from the Rails MCP registry.",
+  "capabilities": {
+    "tools": {
+      "listChanged": false
+    },
+    "resources": {
+      "subscribe": false,
+      "listChanged": false
+    },
+    "prompts": {
+      "listChanged": false
+    }
+  },
+  "transport": {
+    "type": "streamable-http",
+    "url": "https://api.mytommy.com/mcp"
+  },
+  "tools": [],
+  "resources": [],
+  "prompts": []
+}

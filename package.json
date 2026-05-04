@@ -1,0 +1,11 @@
+{
+  "name": "@tommy/docs",
+  "private": true,
+  "scripts": {
+    "dev": "sourcey dev",
+    "build": "sourcey build"
+  },
+  "dependencies": {
+    "sourcey": "^3.5.0"
+  }
+}

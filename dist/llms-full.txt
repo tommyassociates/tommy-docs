@@ -1,0 +1,22 @@
+# Tommy
+
+Tommy developer documentation.
+
+## Documentation
+
+### Introduction
+
+Path: `/introduction`
+
+Tommy developer documentation.
+
+Tommy Developer Documentation Tommy is a workforce and care management platform with mobile, web, API, and addon surfaces. This Sourcey site is currently focused on the MCP server reference. The MCP tab starts as a static contract placeholder and will be expanded as Tommy moves the Workforce Bot and related AI tooling onto a RubyLLM-backed MCP architecture.
+
+## MCP Server
+
+### tommy
+
+Path: `/mcp`
+Version: 0.1.0
+
+Tommy workforce management MCP server. This reference is a placeholder for the RubyLLM and MCP switchover; tools, resources, and prompts will be populated from the Rails MCP registry.
