@@ -10,7 +10,7 @@ export default defineConfig({
       dark: "#0D4FA8",
     },
   },
-  logo: "./assets/logo.png",
+  logo: "./assets/tommy-logo.svg",
   repo: "https://github.com/tommyassociates/tommy-docs",
   editBranch: "master",
   codeSamples: ["curl", "javascript", "typescript", "python", "ruby", "go"],
