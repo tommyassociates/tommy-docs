@@ -3,9 +3,10 @@
   "mcpVersion": "2025-11-25",
   "server": {
     "name": "tommy",
-    "version": "0.1.0"
+    "version": "1.0.0",
+    "title": "Tommy",
+    "description": "Workforce, scheduling, documents, and chat for service teams."
   },
-  "description": "Tommy workforce management MCP server. This reference is a placeholder for the RubyLLM and MCP switchover; tools, resources, and prompts will be populated from the Rails MCP registry.",
   "capabilities": {
     "tools": {
       "listChanged": false
@@ -22,7 +23,298 @@
     "type": "streamable-http",
     "url": "https://api.mytommy.com/mcp"
   },
-  "tools": [],
-  "resources": [],
-  "prompts": []
+  "tools": [
+    {
+      "name": "tommy_get_status",
+      "description": "Get current account/team readiness, recent activity counts, and recommended next actions.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "tommy_query",
+      "description": "Read-only paginated lookup across approved Tommy entity types: shifts, availabilities, documents, clients, contacts, team_members. Pagination via page/per.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "type": "string",
+            "enum": [
+              "shifts",
+              "availabilities",
+              "documents",
+              "clients",
+              "contacts",
+              "team_members"
+            ],
+            "description": "The entity type to list."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 1
+          },
+          "per": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 25
+          },
+          "id": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Optional single-record lookup by id."
+          }
+        },
+        "required": [
+          "entity"
+        ]
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "tommy_search_people",
+      "description": "Search across team_members, clients, or contacts by name/email. Pass kind to narrow; q is the case-insensitive search term.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Search text (matches name, email, phone)."
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "team_members",
+              "clients",
+              "contacts"
+            ],
+            "description": "Optional. Defaults to all kinds."
+          },
+          "per": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 25
+          }
+        },
+        "required": [
+          "q"
+        ]
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "tommy_get_insights",
+      "description": "Read-only summaries and metrics for the active team. Pass metric to narrow: overview, attendance, shifts, documents.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "metric": {
+            "type": "string",
+            "enum": [
+              "overview",
+              "attendance",
+              "shifts",
+              "documents"
+            ],
+            "default": "overview"
+          },
+          "window": {
+            "type": "string",
+            "enum": [
+              "24h",
+              "7d",
+              "30d",
+              "90d"
+            ],
+            "default": "7d",
+            "description": "Lookback window for time-series metrics."
+          }
+        }
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "tommy_manage_shift",
+      "description": "Create, update, cancel, drop, or swap a workforce shift. Pass dry_run: true to preview. Destructive ops (cancel, drop) require confirm: true.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "operation": {
+            "type": "string",
+            "enum": [
+              "create",
+              "update",
+              "cancel",
+              "drop",
+              "swap"
+            ]
+          },
+          "shift_id": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Required for update/cancel/drop/swap."
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Shift attributes for create/update (starts_at, ends_at, team_member_id, location_id, etc.)."
+          },
+          "replacement_team_member_id": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "For swap: the team member to swap to."
+          },
+          "dry_run": {
+            "type": "boolean",
+            "default": false
+          },
+          "confirm": {
+            "type": "boolean",
+            "default": false
+          },
+          "idempotency_key": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false
+      }
+    },
+    {
+      "name": "tommy_manage_availability",
+      "description": "Update a team member availability or record a clock-in/out attendance. Pass dry_run: true to preview.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "operation": {
+            "type": "string",
+            "enum": [
+              "update",
+              "clock_in",
+              "clock_out"
+            ]
+          },
+          "availability_id": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "attendance_id": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "team_member_id": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Availability or attendance attributes (starts_at, ends_at, status, etc.)."
+          },
+          "dry_run": {
+            "type": "boolean",
+            "default": false
+          },
+          "idempotency_key": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "tommy://guide",
+      "name": "guide",
+      "description": "Read first. Tommy vocabulary, recommended workflow, and tool conventions."
+    },
+    {
+      "uri": "tommy://team/current",
+      "name": "team-current",
+      "description": "Live snapshot of the active team: name, owner, counts (members, clients, shifts, availabilities, documents), and installed addons."
+    },
+    {
+      "uri": "tommy://features",
+      "name": "features",
+      "description": "Feature flags and addon slugs enabled for the active team."
+    },
+    {
+      "uri": "tommy://prompts/{name}",
+      "name": "prompt",
+      "description": "Rendered prompt template by name. Available names listed in the prompt registry."
+    }
+  ],
+  "prompts": [
+    {
+      "name": "documents",
+      "description": "Workflow guidance for requesting, approving, and reminding on team documents.",
+      "arguments": []
+    },
+    {
+      "name": "shift-management",
+      "description": "Workflow guidance for creating, updating, or cancelling shifts.",
+      "arguments": [
+        {
+          "name": "shift_id",
+          "description": "Optional shift identifier when working with an existing shift.",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "workforce-assistant",
+      "description": "System prompt for the in-app workforce assistant. Covers tone, scope, and tool-use guidance.",
+      "arguments": []
+    }
+  ]
 }
