@@ -10,10 +10,12 @@ export default defineConfig({
       dark: "#0D4FA8",
     },
   },
+  logo: "./assets/logo.png",
   repo: "https://github.com/tommyassociates/tommy-docs",
   editBranch: "master",
+  codeSamples: ["curl", "javascript", "typescript", "python", "ruby", "go"],
   search: {
-    featured: ["introduction"],
+    featured: ["introduction", "quickstart", "scheduling", "timeclock", "timesheets"],
   },
   navigation: {
     tabs: [
@@ -23,9 +25,44 @@ export default defineConfig({
         groups: [
           {
             group: "Getting Started",
-            pages: ["introduction"],
+            pages: ["introduction", "quickstart", "concepts"],
+          },
+          {
+            group: "Set Up Your Team",
+            pages: ["onboarding", "solutions", "team-members", "locations", "user-settings"],
           },
         ],
+      },
+      {
+        tab: "Workforce",
+        groups: [
+          {
+            group: "Daily Operations",
+            pages: ["scheduling", "timeclock", "timesheets"],
+          },
+        ],
+      },
+      {
+        tab: "Integrations",
+        groups: [
+          {
+            group: "Overview",
+            pages: ["integrations"],
+          },
+          {
+            group: "Accounting & Payroll",
+            pages: ["integrations-xero", "integrations-quickbooks", "integrations-myob"],
+          },
+          {
+            group: "Point of Sale",
+            pages: ["integrations-pos"],
+          },
+        ],
+      },
+      {
+        tab: "API Reference",
+        slug: "api",
+        openapi: "https://api.mytommy.com/v1/openapi.yaml",
       },
       {
         tab: "MCP Server",
@@ -35,10 +72,12 @@ export default defineConfig({
     ],
   },
   navbar: {
-    links: [],
+    links: [
+      { type: "github", href: "https://github.com/tommyassociates" },
+    ],
     primary: {
       type: "button",
-      label: "Dashboard",
+      label: "Open Tommy",
       href: "https://app.mytommy.com",
     },
   },
@@ -48,6 +87,6 @@ export default defineConfig({
     ],
   },
   redirects: [
-    { source: "/api", destination: "/mcp" },
+    { source: "/welcome", destination: "/introduction" },
   ],
 });
