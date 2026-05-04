@@ -217,6 +217,73 @@
       }
     },
     {
+      "name": "tommy_manage_shift_requirements",
+      "description": "Create, update, cancel, approve, or reject a shift request (request / drop / swap / offer). approve_request and reject_request require confirm: true.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "operation": {
+            "type": "string",
+            "enum": [
+              "create_request",
+              "update_request",
+              "cancel_request",
+              "approve_request",
+              "reject_request"
+            ]
+          },
+          "request_id": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Required for update/cancel/approve/reject."
+          },
+          "shift_id": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Required for create_request."
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "request",
+              "drop",
+              "swap",
+              "offer"
+            ],
+            "description": "Required for create_request."
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Optional attributes for create/update (start_at, end_at, swap_shift_id, message, etc.)."
+          },
+          "dry_run": {
+            "type": "boolean",
+            "default": false
+          },
+          "confirm": {
+            "type": "boolean",
+            "default": false
+          },
+          "idempotency_key": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false
+      }
+    },
+    {
       "name": "tommy_manage_availability",
       "description": "Update a team member availability or record a clock-in/out attendance. Pass dry_run: true to preview.",
       "inputSchema": {
@@ -270,6 +337,139 @@
         "openWorldHint": false,
         "readOnlyHint": false
       }
+    },
+    {
+      "name": "tommy_manage_documents",
+      "description": "Create, update, cancel, approve, or reject a leave request. Approve/reject/cancel require confirm: true.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "operation": {
+            "type": "string",
+            "enum": [
+              "create_leave",
+              "update_leave",
+              "cancel_leave",
+              "approve_leave",
+              "reject_leave"
+            ]
+          },
+          "leave_id": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Required for update/cancel/approve/reject."
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Leave request attributes (start_at, end_at, leave_kind, message, etc.) for create/update."
+          },
+          "dry_run": {
+            "type": "boolean",
+            "default": false
+          },
+          "confirm": {
+            "type": "boolean",
+            "default": false
+          },
+          "idempotency_key": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false
+      }
+    },
+    {
+      "name": "tommy_set_memory",
+      "description": "Update the operator's persistent AI memory document for this team. Call with merge: true to merge keys, or replace: true to overwrite. The document is read back via tommy://memory.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "document": {
+            "type": "object",
+            "description": "Free-form JSON object (goals, audience, tone, anything the agent should remember)."
+          },
+          "merge": {
+            "type": "boolean",
+            "default": true,
+            "description": "Merge document into existing memory (default)."
+          },
+          "replace": {
+            "type": "boolean",
+            "default": false,
+            "description": "Replace memory entirely instead of merging."
+          }
+        },
+        "required": [
+          "document"
+        ]
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false
+      }
+    },
+    {
+      "name": "tommy_request_support",
+      "description": "Record a support request from the team. The request is logged and instrumented; a real ticket is created downstream by the support pipeline. Use this instead of exposing arbitrary contact channels.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "type": "string",
+            "description": "One-line summary (max ~120 chars)."
+          },
+          "details": {
+            "type": "string",
+            "description": "Free-form detail. Include reproduction steps for bugs."
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "bug",
+              "billing",
+              "data",
+              "integrations",
+              "onboarding",
+              "other"
+            ],
+            "default": "other"
+          },
+          "urgency": {
+            "type": "string",
+            "enum": [
+              "low",
+              "normal",
+              "high",
+              "urgent"
+            ],
+            "default": "normal"
+          },
+          "idempotency_key": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary"
+        ]
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false
+      }
     }
   ],
   "resources": [
@@ -287,6 +487,11 @@
       "uri": "tommy://features",
       "name": "features",
       "description": "Feature flags and addon slugs enabled for the active team."
+    },
+    {
+      "uri": "tommy://memory",
+      "name": "memory",
+      "description": "Operator memory document for this team. Free-form JSON the agent has saved (goals, audience, tone, anything worth remembering). Managed via tommy_set_memory."
     },
     {
       "uri": "tommy://prompts/{name}",
