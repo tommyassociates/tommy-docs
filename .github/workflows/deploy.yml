@@ -1,0 +1,55 @@
+name: Deploy docs
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-docs
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tommy-docs
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Add GH Pages files (CNAME, .nojekyll)
+        run: |
+          echo "docs.mytommy.com" > dist/CNAME
+          touch dist/.nojekyll
+
+      - name: Configure SSH deploy key
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Push dist to tommyassociates.github.io
+        env:
+          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes"
+        run: |
+          cd dist
+          git init -b master
+          git config user.name "tommy-docs-bot"
+          git config user.email "noreply@mytommy.com"
+          git add -A
+          git commit -m "Deploy from tommy-docs@${GITHUB_SHA::7}"
+          git push --force git@github.com:tommyassociates/tommyassociates.github.io.git master
