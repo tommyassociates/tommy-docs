@@ -15,18 +15,24 @@ You manage integrations from **Settings → Integrations**.
 
 ## What's available
 
-<CardGroup cols={3}>
+<CardGroup cols={2}>
   <Card title="Xero" icon="link" href="/integrations-xero">
-    Sync employees, push approved timesheets, and track invoices. Most popular in Australia, NZ, and the UK.
+    Sync employees and export approved timesheets to Xero. Most popular in Australia, NZ, and the UK.
   </Card>
   <Card title="QuickBooks" icon="link" href="/integrations-quickbooks">
-    Sync employees, export approved timesheets, and import payroll items. Most popular in the US.
+    Sync employees and export approved timesheets to QuickBooks. Most popular in the US.
   </Card>
-  <Card title="MYOB" icon="link" href="/integrations-myob">
-    Sync employees and export approved timesheets. Australian payroll standard.
+  <Card title="MYOB AccountRight" icon="link" href="/integrations-myob">
+    Sync employees and export approved timesheets to MYOB.
   </Card>
-  <Card title="GoTab & Swift POS" icon="shopping-cart" href="/integrations-pos">
-    Sync staff and roster with your point-of-sale. For hospitality and retail.
+  <Card title="Reckon One" icon="link" href="/integrations-reckon">
+    Import employees and export approved time entries to Reckon. Australian SMB accounting.
+  </Card>
+  <Card title="SwiftPOS" icon="shopping-cart" href="/integrations-pos">
+    Sync sales and performance data from SwiftPOS. Hospitality and retail.
+  </Card>
+  <Card title="Roller" icon="shopping-cart" href="/integrations-pos">
+    Sync sales data from Roller POS for demand forecasting.
   </Card>
 </CardGroup>
 
@@ -72,9 +78,10 @@ If you don't have one yet:
 
 - **Xero** — strong in Australia, NZ, UK. Easy onboarding. Good for service businesses.
 - **QuickBooks** — strong in the US. Good ecosystem of payroll add-ons.
-- **MYOB** — long-standing Australian standard. Good for businesses already on AccountRight.
+- **MYOB AccountRight** — long-standing Australian standard.
+- **Reckon One** — Australian SMB; good for small teams already on Reckon.
 
-For point of sale, the choice is driven by your hospitality/retail vendor, not Tommy.
+For point of sale, the choice is driven by your hospitality/retail vendor — Tommy supports SwiftPOS and Roller. If yours isn't on the list, get in touch.
 
 ## Multiple integrations
 

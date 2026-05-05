@@ -31,18 +31,18 @@ Pick the closest match for each. Nothing here is locked in — you can change ev
 If your industry isn't an exact fit, choose **General**. You can swap to a more specific Solution later from team settings.
 :::
 
-## 3. Name your workspace
+## 3. Name your workspace and first location
 
-The next screen asks **What would you like to name your workspace?**. This is your team name — what your members will see when they sign in. Common patterns:
+The next screen, **What would you like to name your workspace?**, asks for three things together:
 
-- The business name: "Bluestone Café"
-- The trading entity: "Bluestone Hospitality Pty Ltd"
-- The service name: "Riverside Disability Support"
+- **Workspace name** — your team name; what members see when they sign in (e.g. "Bluestone Café", "Riverside Disability Support")
+- **Location name** — your first physical workplace (e.g. "Main Store", "Head Office", "Bondi")
+- **Location address** — used for geofencing if you turn that on later
 
-Tap **Create workspace** to finish. You're now the owner of your first team.
+Tap **Create workspace** to finish. You're now the owner of a team with one location ready to roster against.
 
 :::note
-**Screenshot needed:** "What would you like to name your workspace?" form with example placeholder.
+**Screenshot needed:** "What would you like to name your workspace?" form with workspace name, location name, and location address fields.
 :::
 
 ## 4. The Get Started checklist

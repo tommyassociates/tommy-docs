@@ -11,22 +11,22 @@ You pick a Solution during [Onboarding](/onboarding). You can change it later fr
 
 <CardGroup cols={3}>
   <Card title="General" icon="briefcase">
-    The default. Any team that works in shifts but doesn't fit a more specific industry.
+    Default for teams without a specialised industry.
   </Card>
   <Card title="NDIS & Care Services" icon="heart">
-    Disability support, home care, aged care, allied health.
+    NDIS providers, disability support, home care, aged care.
   </Card>
   <Card title="Hospitality" icon="cup">
     Restaurants, cafés, bars, pubs, hotels.
   </Card>
   <Card title="Retail" icon="shopping-bag">
-    Stores, supermarkets, multi-location chains.
+    Retail stores, supermarkets, multi-location chains.
   </Card>
   <Card title="Staffing Agency" icon="users">
-    Labour hire, recruitment, contractor placements.
+    Staffing agencies, labour hire, recruitment firms.
   </Card>
   <Card title="Construction & Trades" icon="wrench">
-    Building, field service, trades, project work.
+    Construction, field service, tradies, project-based work.
   </Card>
 </CardGroup>
 
@@ -46,25 +46,26 @@ Below is what each Solution gives you out of the box.
 
 ## NDIS & Care Services
 
-For disability support providers, home care, aged care, and allied health teams.
+For NDIS providers, disability support, home care, and aged care.
 
 **Default roles** — Support Worker, Team Leader, Service Coordinator, Registered Nurse, Allied Health Professional
 
-**Compliance defaults** — NDIS Worker Screening, Working With Children Check, First Aid, manual handling certifications, vehicle insurance
+**Compliance documents (with expiry tracking)** — NDIS Worker Screening Check, Working With Children Check, First Aid Certificate, CPR Certificate, Driver's License
+
+**Default shift templates** — Morning Support (06:00–14:00), Afternoon Support (14:00–22:00), Overnight Support (22:00–06:00), Community Access (09:00–15:00)
 
 **Specialised features**
 
-- **Participants** — manage the people you support, with goals, plans, and budgets
-- **Visit-based scheduling** — shifts tied to a participant's location
-- **Photo + GPS time clock** — visit verification for funder reporting
-- **Mileage tracking** — capture travel between participants
-- **Care plans** — link shifts to documented support plans
+- **Clients (participants)** — manage the people you support, with care plans
+- **Care Plans** addon — document supports and goals; link to shifts
+- **Invoicing** addon — generate invoices from completed shifts
+- **GPS + photo time clock** — required by default (`timeclock_require_gps`, `timeclock_require_photo`)
+- **No web clock-in** — clock-in disabled in browsers, mobile only
+- **Mileage tracking** — captured automatically on clock-out
+- **Schedule by client** — calendar default view groups shifts by participant
+- **Leave management** — leave accruals and requests
 
-**Common Get Started extras** — Add a participant, set up compliance documents, connect Xero for invoicing.
-
-:::tip
-NDIS teams typically pair the NDIS Solution with the **Xero** integration for invoicing and **QuickBooks** for payroll, depending on which side of the books you're on.
-:::
+**Get Started checklist (extras)** — Create your first invoice, connect Xero or MYOB, add service locations (offices, group homes, service areas), review compliance documents, configure mileage tracking.
 
 ## Hospitality
 
@@ -72,18 +73,17 @@ For restaurants, cafés, bars, pubs, and hotels.
 
 **Default roles** — Barista, Bartender, Chef, Server, Kitchen Manager, Floor Manager
 
-**Compliance defaults** — Food Safety Certificate, Responsible Service of Alcohol (RSA), allergen handling
+**Compliance documents (with expiry tracking)** — Responsible Service of Alcohol Certificate, Food Safety Certificate, Working With Children Check
 
-**Shift template defaults** — Morning Shift, Afternoon Shift, Evening Shift, Split Shift
+**Default shift templates** — Morning (Prep) (06:00–14:00), Lunch Service (10:00–18:00), Dinner Service (15:00–23:00)
 
 **Specialised features**
 
-- **Role-based scheduling** — schedule by station and skill, not just person
-- **Split shifts** — clean handling of breakfast + dinner same-day shifts
-- **POS integrations** — Sync staff and roster with [GoTab and Swift POS](/integrations-pos)
-- **Tip pools** — track distribution at end of shift
+- **Schedule by role** — calendar default view groups shifts by role (Barista, Chef, Server, etc.) for easier coverage planning
+- **Leave management** — leave accruals and requests
+- **No web clock-in** — clock-in disabled in browsers, mobile only
 
-**Common Get Started extras** — Add your venue, build your weekly template, connect your POS.
+**Get Started checklist (extras)** — Set up your team profile, connect a POS system (SwiftPOS or Roller), set up pay templates.
 
 ## Retail
 
@@ -91,53 +91,71 @@ For retail stores, supermarkets, and multi-location chains.
 
 **Default roles** — Sales Associate, Cashier, Store Manager, Assistant Manager, Department Lead, Inventory Specialist
 
+**Compliance / onboarding documents** — Tax File Number Declaration, Superannuation Choice, Employee Handbook Acknowledgement (no expiry tracking on these)
+
+**Default shift templates** — Opening Shift (08:00–14:00), Closing Shift (14:00–21:00), Full Day (09:00–17:30)
+
 **Specialised features**
 
-- **Multi-location scheduling** — schedule across stores from one screen
-- **Coverage requirements** — set minimum staffing by department and time of day
-- **Open/close shifts** — templates for opening, mid, and closing crews
+- **Schedule by team** — default calendar view shows all team members across stores
+- **Leave management** — leave accruals and requests
 
-**Common Get Started extras** — Add your stores, set up role coverage requirements, connect your POS.
+**Get Started checklist (essentials)** — Invite team members, create your first roster, **connect your POS system**, install the mobile app.
+
+**Get Started checklist (extras)** — Set up your store profile, add your store locations.
 
 ## Staffing Agency
 
-For labour hire, recruitment, and contractor placements.
+For staffing agencies, labour hire, and recruitment firms.
 
 **Default roles** — Talent, Team Lead, Account Manager, Recruiter
 
+**Compliance documents** — Working With Children Check (with expiry), Police Check (with expiry), Reference (no expiry)
+
+**Default shift templates** — Standard Day (09:00–17:00), Early Start (06:00–14:00), Late Shift (14:00–22:00)
+
 **Specialised features**
 
-- **Multi-client placements** — assign Talent to multiple client sites
-- **Casual roster patterns** — high-turnover, on-demand templates
-- **Contractor pay** — separate pay templates for contractor vs employee
-- **Client billing** — track hours by client for invoicing
+- **Clients** — manage client companies that hire your Talent
+- **Invoicing** addon — bill clients from completed placements
+- **Mileage tracking**
+- **Leave management**
 
-**Common Get Started extras** — Add a client, build a casual shift template, set up contractor pay templates.
+**Get Started checklist (essentials)** — Add your staff, add a client, create your first placement, connect your accounting software.
 
 ## Construction & Trades
 
-For builders, electricians, plumbers, field service, and project-based teams.
+For construction, field service, tradies, and project-based work.
 
 **Default roles** — Site Manager, Foreman, Carpenter, Electrician, Plumber, Laborer, Safety Officer, Equipment Operator
 
-**Compliance defaults** — White Card, trade licences, equipment certifications
+**Compliance documents (with expiry tracking)** — White Card (Construction Induction, no expiry), Working at Heights Certificate, First Aid Certificate, Driver's License, Forklift License
+
+**Default shift templates** — Day Shift (06:00–14:30), Extended Day (06:00–16:30)
 
 **Specialised features**
 
-- **Site-based scheduling** — shifts tied to a job site
+- **Clients** — manage clients/builders you work for
+- **Invoicing** addon
+- **Schedule by location** — default calendar view groups shifts by site
+- **GPS time clock** — required by default (`timeclock_require_gps`)
 - **Mileage tracking** — capture travel between sites
-- **Equipment assignments** — track who's using what gear
-- **Site safety briefings** — pre-shift task answers
 
-**Common Get Started extras** — Add a site, set up trade-specific roles, configure mileage rates.
+**Get Started checklist (essentials)** — Invite your crew, schedule your first site day, review safety document requirements, install the mobile app.
+
+**Get Started checklist (extras)** — Set up your company profile, add your project sites, configure mileage tracking.
 
 ## General
 
-For teams that work in shifts but don't fit one of the specialised Solutions.
+The default for teams without a specialised industry.
 
 **Default roles** — None preset. You build your own from **Settings → Roles & Positions**.
 
-**Defaults** — Lean. Scheduling, Time Clock, Timesheets are on. No industry-specific compliance or features.
+**Default shift templates** — Morning Shift (06:00–14:00), Afternoon Shift (14:00–22:00), Full Day (09:00–17:00)
+
+**Defaults** — Lean. Scheduling, Time Clock, Timesheets, Availability, Calendar are on. **Compliance documents off** (no required document types). No leave, no mileage, no NDIS features.
+
+**Get Started checklist (extras)** — Set up your team profile, add your work locations.
 
 **Use General when** — You're a small team, you're trying Tommy out, or your industry doesn't match any of the others closely enough to be useful.
 

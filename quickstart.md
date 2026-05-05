@@ -32,7 +32,7 @@ After signing up, Tommy walks you through creating your first **team**. You'll b
     Helps Tommy size the recommendations.
   </Step>
   <Step title="What would you like to name your workspace?">
-    Your team name. This is what your members will see when they sign in. Tap **Create workspace** to finish.
+    Three fields here: your team name, your first location's name, and that location's address. Tap **Create workspace** to finish.
   </Step>
 </Steps>
 

@@ -70,7 +70,7 @@ A timesheet moves through these states:
 
 | State | What happened |
 |---|---|
-| **Draft** | Tommy is still building it. The pay period isn't closed yet. |
+| **Unsubmitted** | Tommy is still building it. The pay period isn't closed yet. |
 | **Submitted** | The member submitted it for approval. |
 | **Approved** | A manager approved it. Now it's locked and ready to export. |
 

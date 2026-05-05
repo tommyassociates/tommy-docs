@@ -51,7 +51,7 @@ export default defineConfig({
           },
           {
             group: "Accounting & Payroll",
-            pages: ["integrations-xero", "integrations-quickbooks", "integrations-myob"],
+            pages: ["integrations-xero", "integrations-quickbooks", "integrations-myob", "integrations-reckon"],
           },
           {
             group: "Point of Sale",

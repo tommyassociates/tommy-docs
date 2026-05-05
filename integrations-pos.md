@@ -1,116 +1,80 @@
 ---
-title: GoTab & Swift POS
-description: Sync staff and roster with your point-of-sale. For hospitality and retail teams.
+title: SwiftPOS & Roller
+description: Sync sales and performance data from your point-of-sale into Tommy. For hospitality and retail teams.
 ---
 
-For hospitality and retail teams, your point-of-sale system already knows who's working a shift, what they sold, and when the venue is busy. The Tommy POS integrations connect that to your scheduling and timesheet flow so you don't have to re-enter staff in two systems.
+For hospitality and retail teams, your point-of-sale system has the data Tommy needs to inform smarter scheduling — sales by hour, performance by team member, demand patterns across the week. Tommy supports two POS providers in this category:
 
-Tommy supports two POS providers:
+- **SwiftPOS** — Sync sales and performance data from SwiftPOS
+- **Roller** — Sync sales data from Roller POS for demand forecasting
 
-- **GoTab** — cloud POS for hospitality
-- **Swift POS** — POS for hospitality and retail
-
-If your POS is something else, get in touch — we add integrations based on customer demand.
+Connect once and the data flows in automatically. You can use it as input for scheduling decisions; Tommy doesn't replace the POS itself.
 
 ## What it does
 
-| Capability | What it means |
-|---|---|
-| **Sync staff** | Tommy team members and POS employees stay in sync. Add a new hire in Tommy, they appear at the till the next day. |
-| **Sync roster** | Published shifts in Tommy reflect on the POS so the right people can clock in at the till. |
-| **Pull sales data** | (Optional, by Solution) Sales by member or by hour-of-day to inform schedule planning. |
-
-## Connect GoTab
-
-<Steps>
-  <Step title="Open Settings → Integrations">
-    Tap **GoTab** in the available integrations list.
-  </Step>
-  <Step title="Authorise with GoTab">
-    Sign in to GoTab and grant Tommy access to your venue.
-  </Step>
-  <Step title="Pick your venue">
-    If you run multiple venues in GoTab, pick the one that matches this Tommy team. For multi-venue, set up a Tommy team per venue or talk to support.
-  </Step>
-  <Step title="Map team members to GoTab employees">
-    Auto-matched by name. Resolve mismatches manually.
-  </Step>
-  <Step title="Choose what to sync">
-    Tick which directions: staff in, staff out, roster sync, sales data import.
-  </Step>
-</Steps>
+| Capability | Provider | What it means |
+|---|---|---|
+| **Sales data sync** | SwiftPOS, Roller | Pull sales totals and by-hour breakdowns into Tommy |
+| **Performance data sync** | SwiftPOS | Sales attributed to specific staff members |
+| **Demand forecasting** | Roller | Use historical sales data to plan future shift coverage |
 
 :::note
-**Screenshot needed:** GoTab connection screen with sync direction toggles.
+The current Tommy POS integrations focus on **inbound** sales data, not roster/staff sync. If you need staff to clock in via the POS terminal, do that through Tommy's [Time Clock](/timeclock) or [Kiosk Mode](/timeclock#kiosk-mode) instead.
 :::
 
-## Connect Swift POS
+## Connect SwiftPOS
 
 <Steps>
   <Step title="Open Settings → Integrations">
-    Tap **Swift POS** in the available integrations list.
+    Tap **SwiftPOS** in the available integrations list.
   </Step>
-  <Step title="Provide your Swift API credentials">
-    Swift uses an API key rather than OAuth. Get this from your Swift admin console.
+  <Step title="Authorise with SwiftPOS">
+    Provide the credentials for your SwiftPOS account. Get these from your SwiftPOS admin if you don't have them.
   </Step>
-  <Step title="Map team members to Swift employees">
-    Auto-matched by employee code or name. Resolve mismatches manually.
+  <Step title="Pick your venue">
+    If you run multiple venues, pick the one that matches this Tommy team.
   </Step>
-  <Step title="Choose what to sync">
-    Tick which directions to enable.
+  <Step title="Test the sync">
+    Confirm sales totals from yesterday's trade match between SwiftPOS and Tommy.
   </Step>
 </Steps>
 
 :::note
-**Screenshot needed:** Swift POS connection screen with API key field.
+**Screenshot needed:** SwiftPOS connection screen.
+:::
+
+## Connect Roller
+
+<Steps>
+  <Step title="Open Settings → Integrations">
+    Tap **Roller** in the available integrations list.
+  </Step>
+  <Step title="Authorise with Roller">
+    Sign in to Roller and grant Tommy access.
+  </Step>
+  <Step title="Confirm data flow">
+    Once connected, sales data starts flowing for demand-forecasting features.
+  </Step>
+</Steps>
+
+:::note
+**Screenshot needed:** Roller connection screen.
 :::
 
 ## Where this fits
 
-POS integrations don't replace [Time Clock](/timeclock) — they sit alongside it.
+POS integrations are **complementary** to Tommy's [Time Clock](/timeclock), not a replacement.
 
-| Approach | When to use |
-|---|---|
-| **Tommy Time Clock only** | Members clock in via Tommy app or Kiosk Mode. POS doesn't track attendance. |
-| **POS clock-in only** | Members clock in via the POS terminal. Tommy imports the records. |
-| **Both** | Members clock in via Tommy for the official record; POS knows who's on shift for till access. Most common in hospitality. |
+- **Tommy Time Clock** handles attendance, timesheets, payroll
+- **POS integration** brings in sales context for scheduling decisions
 
-The default is **Both** — Tommy handles attendance and timesheets, POS handles till access. Sync just keeps the two staff lists aligned.
-
-## Multi-venue setups
-
-If you run several venues, you have two patterns:
-
-**One Tommy team per venue** — clean separation, separate billing, separate admin. Recommended if venues are run independently.
-
-**One Tommy team across venues, with [Locations](/locations)** — central admin, single billing, location managers per venue. Recommended if it's one business with multiple sites.
-
-For POS sync, the per-venue approach is simpler — each Tommy team connects to one POS venue. The multi-location approach requires POS-side support for multi-venue exports.
-
-## Sync schedule
-
-- **Staff sync** every few hours both directions
-- **Roster sync** within a minute of publishing
-- **Sales import** (where supported) daily
-
-Force an immediate sync from **Settings → Integrations → [Provider] → Sync now**.
+If your venue uses a POS not yet listed (Square, Lightspeed, Toast, etc.) — get in touch via support@mytommy.com. New integrations are added based on customer demand.
 
 ## Disconnecting
 
 From **Settings → Integrations → [Provider] → Disconnect**.
 
-Past sync data stays in both systems. Future syncs stop.
-
-## Troubleshooting
-
-| Symptom | Likely cause | Fix |
-|---|---|---|
-| **Staff names duplicated in POS** | Both systems had the staff member before the first sync | Merge in the POS; Tommy will pick up the survivor on next sync |
-| **Auth expired (GoTab)** | OAuth tokens expire | Reconnect from the integration page |
-| **API key invalid (Swift)** | Key revoked or rotated in Swift | Generate a new key, update in Tommy |
-| **Roster not appearing on POS** | Roster sync direction not enabled | Toggle on in the integration's sync settings |
-
-If you're stuck, email **support@mytommy.com** with the provider's error code from the integration status page.
+Past data stays in both systems. Future syncs stop.
 
 ## Related
 
@@ -119,12 +83,12 @@ If you're stuck, email **support@mytommy.com** with the provider's error code fr
     All providers and how connecting works.
   </Card>
   <Card title="Time Clock" icon="clock" href="/timeclock">
-    The other half of attendance — Tommy's own clock.
+    Where attendance data actually comes from.
   </Card>
   <Card title="Solutions: Hospitality" icon="cup" href="/solutions#hospitality">
-    Where POS integrations are most commonly used.
+    Where SwiftPOS is most commonly used.
   </Card>
-  <Card title="Locations" icon="map" href="/locations">
-    Multi-venue setup patterns.
+  <Card title="Solutions: Retail" icon="shopping-bag" href="/solutions#retail">
+    Roller pairs well with retail demand forecasting.
   </Card>
 </CardGroup>

@@ -1,9 +1,9 @@
 ---
-title: MYOB
+title: MYOB AccountRight
 description: Sync employees and export approved timesheets to MYOB. Australian payroll standard.
 ---
 
-MYOB is the long-standing Australian payroll and accounting standard. Tommy's MYOB integration syncs employees and pushes approved timesheets to MYOB Payroll.
+MYOB AccountRight is the long-standing Australian payroll and accounting standard. Tommy's MYOB integration syncs employees and pushes approved timesheets to MYOB.
 
 ## What it does
 

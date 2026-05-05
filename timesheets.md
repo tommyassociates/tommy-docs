@@ -13,9 +13,13 @@ A timesheet moves through these states:
 
 | State | Meaning |
 |---|---|
-| **Draft** | Tommy is still building it. The pay period isn't closed yet. |
+| **Unsubmitted** | The default starting state — the member hasn't submitted yet. Editable by the member. |
 | **Submitted** | The member submitted it for approval. |
-| **Approved** | A manager approved it. It's locked and ready to export. |
+| **Preapproved** | An intermediate approval state, used when a first-pass reviewer (e.g. a location manager) endorses but doesn't finalise. |
+| **Approved** | A manager approved it. Ready to export. |
+| **Denied** | The manager rejected it. Returns to the member for edits. |
+
+Separately, a timesheet has a **`locked`** flag that prevents further edits. Approving a timesheet locks it; an admin can reopen by unlocking.
 
 :::note
 **Screenshot needed:** Timesheet detail view showing line items and the Submit / Approve buttons.
@@ -151,7 +155,7 @@ Tune notification timing from **Settings → System Notifications**.
 
 <AccordionGroup>
   <Accordion title="Who can edit a timesheet, and when?">
-    Members can edit their own timesheet while it's in **Draft**. After submitting, they can't edit unless the manager denies it back. Managers can edit at any state. Admins can edit and reopen approved timesheets, but only with an audit-log entry.
+    Members can edit their own timesheet while it's **Unsubmitted**. After submitting, they can't edit unless the manager denies it back. Managers can edit at any state. Admins can edit and reopen approved timesheets, but only with an audit-log entry.
   </Accordion>
   <Accordion title="What if a member forgot to clock in?">
     The member can edit the timesheet line item before submitting and add the missing time, with a note explaining what happened. Or the manager can adjust during approval. Either way, the change is logged.

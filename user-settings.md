@@ -146,14 +146,13 @@ Note that closing your personal account doesn't close the teams you're a member 
 
 ## Permissions deep-dive
 
-By default, Tommy uses these permission tiers:
+Tommy ships with these built-in roles (visible in the app i18n as):
 
-| Tier | What they can do |
+| Role label | What they typically do |
 |---|---|
-| **Owner** | Everything, including billing and team closure |
-| **Admin** | Everything except billing |
-| **Location Manager** | Manage shifts, members, and timesheets at their assigned locations |
-| **Member** | See and submit their own data |
+| **Team Admin** | Everything — manage settings, integrations, members, all data |
+| **Location Manager** | Manage shifts, members, and timesheets scoped to assigned locations |
+| (regular member) | See and submit their own data; clock in and out |
 
 To customise — for example, "this manager can approve timesheets but can't change pay templates" — go to **Settings → Permissions**. Each capability can be granted independently to roles or individuals.
 

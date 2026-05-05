@@ -85,15 +85,18 @@ Set up an open shift the same way as a regular shift — just leave the **Member
 
 ## Shift swaps and requests
 
-Members can request changes from their phone:
+Members can request changes from their phone, and managers can offer shifts back. Tommy supports four kinds of shift request:
 
-- **Swap** — propose trading shifts with another member
-- **Pickup** — claim an open shift
-- **Drop** — ask to be removed from a shift
+| Kind | Who initiates | What it means |
+|---|---|---|
+| **Request** | Member | Member asks to pick up an open or unassigned shift |
+| **Swap** | Member | Member proposes trading shifts with another member |
+| **Drop** | Member | Member asks to be removed from a shift |
+| **Offer** | Manager | Manager offers a shift to one or more members to claim |
 
-These come through to managers as **Shift Requests**. Open the request, review the impact (does the swap leave a gap? does the drop break coverage?), and **Approve** or **Decline**.
+A request moves through these statuses: `requested` → `shortlisted` (optional) → `approved` / `rejected` (or `canceled`).
 
-Members are notified of the decision automatically.
+Open a request from **Scheduling → Shift Requests**, review the impact (does the swap leave a gap? does the drop break coverage?), and approve or reject. Members are notified of the decision automatically.
 
 :::tip
 Set a swap policy from **Settings → Scheduling**. You can require both members to opt in before a swap goes through, or auto-approve swaps that don't change total hours.

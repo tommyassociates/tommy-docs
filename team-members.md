@@ -7,14 +7,17 @@ A **team member** is anyone who belongs to your team — staff, contractors, man
 
 You manage members from **Team Members** in the main menu (sometimes shown as **Team** depending on your role).
 
-## The three ways to add members
+## Four ways to add members
 
-<CardGroup cols={3}>
+<CardGroup cols={2}>
   <Card title="Add individual" icon="user-plus">
     For one-by-one invites. Best when onboarding gradually.
   </Card>
   <Card title="Share team invite link" icon="link">
-    Generate a link or QR code. Anyone with it can join. Best for events or fast bootstraps.
+    Generate a shareable link. Anyone with it can join.
+  </Card>
+  <Card title="Team Invite Code" icon="key">
+    A short code members can type in to join — useful for posters or in-person sign-up.
   </Card>
   <Card title="Bulk upload" icon="document">
     Upload a CSV. Best when migrating from spreadsheets or another system.
@@ -72,22 +75,20 @@ Tap **Invite** (if sending now) or **Save team member** (if not).
 
 ## Share a team invite link
 
-For fast bulk onboarding — induction days, casual hire events, or seasonal ramp-up — share a single link.
+For fast bulk onboarding — induction days, casual hire events, or seasonal ramp-up — share a single link. From **Team Members**, tap **Share team invite link**. You get a URL anyone can use to join your team.
 
-From **Team Members**, tap **Share team invite link**. You get:
+Anyone with the link joins your team as a regular member. They'll appear in your member list with whatever default settings you've configured.
 
-- A **shareable URL**
-- A **QR code** members can scan from their phone
-- A short **invite code** they can type in
+## Team Invite Code
 
-Anyone with the link or code joins your team as a regular member. They'll appear in your member list with whatever default role you set in **Settings → Permissions**.
+A short alphanumeric code — useful when sharing a link is awkward (printed posters, in-person briefings, group chat). From **Team Members**, tap **Team Invite Code**. You get a code that members type into the Tommy app to join.
 
 :::tip
-Use the QR code on a printed sign at orientation. Members scan, sign up, and they're in your team within a minute.
+Print the code on a sign at orientation. Members enter it in the Tommy app to join your team in seconds.
 :::
 
 :::warning
-The invite link doesn't expire by default. If you're worried about strangers joining, generate a fresh code from time to time and revoke the old one.
+Both the invite link and code grant access to your team. If you're worried about misuse, regenerate them periodically and rely on the **Add individual** flow for sensitive hires.
 :::
 
 ## Bulk upload
@@ -114,9 +115,9 @@ The common patterns:
 
 | Role pattern | What they can do |
 |---|---|
-| **Owner / Admin** | Everything — settings, integrations, billing, all data |
+| **Team Admin** | Everything — settings, integrations, all data |
 | **Location Manager** | Manage shifts, approve timesheets, manage members at their assigned locations |
-| **Worker / Member** | View their own shifts, clock in/out, submit their own timesheets |
+| Regular member | View their own shifts, clock in/out, submit their own timesheets |
 
 ## Editing a member
 
