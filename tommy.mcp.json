@@ -1,6 +1,7 @@
 {
   "mcpSpec": "0.2.0",
   "mcpVersion": "2025-11-25",
+  "description": "Workforce, scheduling, documents, and chat for service teams.",
   "server": {
     "name": "tommy",
     "version": "1.0.0",
@@ -161,7 +162,7 @@
     },
     {
       "name": "tommy_manage_shift",
-      "description": "Create, update, cancel, drop, or swap a workforce shift. Pass dry_run: true to preview. Destructive ops (cancel, drop) require confirm: true.",
+      "description": "Create, update, cancel, drop, or swap a workforce shift. Pass dry_run: true to preview. Cancel/drop/swap require attributes.confirm: true.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -173,36 +174,73 @@
               "cancel",
               "drop",
               "swap"
-            ]
+            ],
+            "description": "What to do."
           },
           "shift_id": {
             "type": [
               "integer",
               "string"
             ],
-            "description": "Required for update/cancel/drop/swap."
-          },
-          "attributes": {
-            "type": "object",
-            "description": "Shift attributes for create/update (starts_at, ends_at, team_member_id, location_id, etc.)."
-          },
-          "replacement_team_member_id": {
-            "type": [
-              "integer",
-              "string"
-            ],
-            "description": "For swap: the team member to swap to."
+            "description": "For update/cancel/drop/swap."
           },
           "dry_run": {
             "type": "boolean",
-            "default": false
-          },
-          "confirm": {
-            "type": "boolean",
-            "default": false
+            "default": false,
+            "description": "Preview without applying."
           },
           "idempotency_key": {
-            "type": "string"
+            "type": "string",
+            "description": "Dedupe retries."
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Shift fields to set or update.",
+            "properties": {
+              "start_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When the shift starts."
+              },
+              "end_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When the shift ends."
+              },
+              "assignee_id": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "description": "Team member to work the shift.",
+                "x-bot-form": {
+                  "field": "team_member"
+                }
+              },
+              "role_name": {
+                "type": "string",
+                "description": "Optional role label for the shift."
+              },
+              "replacement_team_member_id": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "description": "For swap: the team member to swap to.",
+                "x-bot-form": {
+                  "field": "team_member",
+                  "label": "Replacement team member"
+                }
+              },
+              "confirm": {
+                "type": "boolean",
+                "default": false,
+                "description": "Required for cancel, drop, or swap.",
+                "x-bot-form": {
+                  "label": "I confirm this action"
+                }
+              }
+            }
           }
         },
         "required": [
@@ -218,7 +256,7 @@
     },
     {
       "name": "tommy_manage_shift_requirements",
-      "description": "Create, update, cancel, approve, or reject a shift request (request / drop / swap / offer). approve_request and reject_request require confirm: true.",
+      "description": "Create, update, cancel, approve, or reject a shift request (request / drop / swap / offer). approve_request, reject_request, and cancel_request require attributes.confirm: true.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -230,21 +268,22 @@
               "cancel_request",
               "approve_request",
               "reject_request"
-            ]
+            ],
+            "description": "What to do."
           },
           "request_id": {
             "type": [
               "integer",
               "string"
             ],
-            "description": "Required for update/cancel/approve/reject."
+            "description": "For update/cancel/approve/reject."
           },
           "shift_id": {
             "type": [
               "integer",
               "string"
             ],
-            "description": "Required for create_request."
+            "description": "For create_request."
           },
           "kind": {
             "type": "string",
@@ -254,22 +293,45 @@
               "swap",
               "offer"
             ],
-            "description": "Required for create_request."
-          },
-          "attributes": {
-            "type": "object",
-            "description": "Optional attributes for create/update (start_at, end_at, swap_shift_id, message, etc.)."
+            "description": "For create_request: what kind of request."
           },
           "dry_run": {
             "type": "boolean",
             "default": false
           },
-          "confirm": {
-            "type": "boolean",
-            "default": false
-          },
           "idempotency_key": {
             "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Optional fields for create/update.",
+            "properties": {
+              "swap_shift_id": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "description": "For swap requests, the shift to swap into.",
+                "x-bot-form": {
+                  "field": "shift"
+                }
+              },
+              "message": {
+                "type": "string",
+                "description": "Optional note.",
+                "x-bot-form": {
+                  "field": "textarea"
+                }
+              },
+              "confirm": {
+                "type": "boolean",
+                "default": false,
+                "description": "Required before cancelling, approving, or rejecting.",
+                "x-bot-form": {
+                  "label": "I confirm this action"
+                }
+              }
+            }
           }
         },
         "required": [
@@ -285,7 +347,7 @@
     },
     {
       "name": "tommy_manage_availability",
-      "description": "Update a team member availability or record a clock-in/out attendance. Pass dry_run: true to preview.",
+      "description": "Update an availability record or record a clock-in/out attendance.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -295,29 +357,29 @@
               "update",
               "clock_in",
               "clock_out"
-            ]
+            ],
+            "description": "What to do."
           },
           "availability_id": {
             "type": [
               "integer",
               "string"
-            ]
+            ],
+            "description": "For update."
           },
           "attendance_id": {
             "type": [
               "integer",
               "string"
-            ]
+            ],
+            "description": "For clock_out."
           },
           "team_member_id": {
             "type": [
               "integer",
               "string"
-            ]
-          },
-          "attributes": {
-            "type": "object",
-            "description": "Availability or attendance attributes (starts_at, ends_at, status, etc.)."
+            ],
+            "description": "For clock_in/clock_out: who is clocking in or out."
           },
           "dry_run": {
             "type": "boolean",
@@ -325,6 +387,68 @@
           },
           "idempotency_key": {
             "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Availability or attendance fields.",
+            "properties": {
+              "start_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Start of the availability window."
+              },
+              "end_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "End of the availability window."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "unavailable",
+                  "neutral",
+                  "available",
+                  "preferred"
+                ],
+                "description": "Availability status for the requested time range."
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "Availability date.",
+                "x-bot-form": {
+                  "hidden": true
+                }
+              },
+              "periods": {
+                "type": "array",
+                "description": "Which availability windows to update.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "am",
+                    "pm",
+                    "nd"
+                  ]
+                },
+                "x-bot-form": {
+                  "hidden": true
+                }
+              },
+              "availability": {
+                "type": "string",
+                "enum": [
+                  "unavailable",
+                  "neutral",
+                  "available",
+                  "preferred"
+                ],
+                "description": "Availability value to apply to the selected periods.",
+                "x-bot-form": {
+                  "hidden": true
+                }
+              }
+            }
           }
         },
         "required": [
@@ -340,7 +464,7 @@
     },
     {
       "name": "tommy_manage_documents",
-      "description": "Create, update, cancel, approve, or reject a leave request. Approve/reject/cancel require confirm: true.",
+      "description": "Create, update, cancel, approve, or reject a leave request. Approve/reject/cancel require attributes.confirm: true.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -352,29 +476,66 @@
               "cancel_leave",
               "approve_leave",
               "reject_leave"
-            ]
+            ],
+            "description": "What to do."
           },
           "leave_id": {
             "type": [
               "integer",
               "string"
             ],
-            "description": "Required for update/cancel/approve/reject."
-          },
-          "attributes": {
-            "type": "object",
-            "description": "Leave request attributes (start_at, end_at, leave_kind, message, etc.) for create/update."
+            "description": "For update/cancel/approve/reject."
           },
           "dry_run": {
             "type": "boolean",
-            "default": false
-          },
-          "confirm": {
-            "type": "boolean",
-            "default": false
+            "default": false,
+            "description": "Preview without applying."
           },
           "idempotency_key": {
             "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Leave request fields.",
+            "properties": {
+              "start_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When the leave starts."
+              },
+              "end_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When the leave ends."
+              },
+              "leave_kind": {
+                "type": "string",
+                "enum": [
+                  "annual",
+                  "sick",
+                  "personal",
+                  "long_service",
+                  "unpaid",
+                  "other"
+                ],
+                "description": "Type of leave."
+              },
+              "message": {
+                "type": "string",
+                "description": "Optional note.",
+                "x-bot-form": {
+                  "field": "textarea"
+                }
+              },
+              "confirm": {
+                "type": "boolean",
+                "default": false,
+                "description": "Required before approving, rejecting, or cancelling.",
+                "x-bot-form": {
+                  "label": "I confirm this action"
+                }
+              }
+            }
           }
         },
         "required": [
@@ -426,43 +587,49 @@
       "inputSchema": {
         "type": "object",
         "properties": {
-          "summary": {
-            "type": "string",
-            "description": "One-line summary (max ~120 chars)."
-          },
-          "details": {
-            "type": "string",
-            "description": "Free-form detail. Include reproduction steps for bugs."
-          },
-          "category": {
-            "type": "string",
-            "enum": [
-              "bug",
-              "billing",
-              "data",
-              "integrations",
-              "onboarding",
-              "other"
-            ],
-            "default": "other"
-          },
-          "urgency": {
-            "type": "string",
-            "enum": [
-              "low",
-              "normal",
-              "high",
-              "urgent"
-            ],
-            "default": "normal"
-          },
           "idempotency_key": {
             "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Support ticket fields.",
+            "properties": {
+              "summary": {
+                "type": "string",
+                "description": "One-line summary."
+              },
+              "details": {
+                "type": "string",
+                "description": "Free-form detail.",
+                "x-bot-form": {
+                  "field": "textarea"
+                }
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "bug",
+                  "billing",
+                  "data",
+                  "integrations",
+                  "onboarding",
+                  "other"
+                ],
+                "description": "What kind of issue?"
+              },
+              "urgency": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "normal",
+                  "high",
+                  "urgent"
+                ],
+                "description": "How urgent?"
+              }
+            }
           }
-        },
-        "required": [
-          "summary"
-        ]
+        }
       },
       "annotations": {
         "destructiveHint": false,
