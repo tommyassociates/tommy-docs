@@ -5,7 +5,7 @@ description: Submit, approve, and export. Timesheets build themselves from clock
 
 Timesheets are how worked hours become pay. Tommy builds them automatically from the shifts and [attendances](/timeclock) for each member, the member submits them at the end of the pay period, and a manager approves. Approved timesheets export to your accounting software for payroll.
 
-If you've set up [Scheduling](/scheduling), [Time Clock](/timeclock), and a [pay template](/user-settings#pay-templates), timesheets are mostly hands-off.
+If you've set up [Scheduling](/scheduling), [Time Clock](/timeclock), and a [pay template](#pay-templates), timesheets are mostly hands-off.
 
 ## The timesheet lifecycle
 
@@ -78,18 +78,29 @@ For larger teams, use **bulk approve** from the timesheets list. You can review 
 
 ## Pay templates
 
-A **pay template** is the rule set Tommy uses to calculate pay for a member or shift:
+A **pay template** is the rule set Tommy uses to calculate pay for a member or shift. Manage them from **Settings → Pay Templates**.
 
-- **Base rate** — dollars per hour
-- **Overtime** — multiplier and threshold (e.g., 1.5× after 38 hours/week)
-- **Allowances** — meal, travel, uniform
-- **Penalties** — Saturday, Sunday, public holiday rates
-- **Break rules** — paid vs unpaid, automatic deductions
-- **Mileage rate** — dollars per kilometre
+A pay template has:
+
+- **Title** (e.g., "Award Level 1", "Casuals")
+- **Default hourly rate**
+- **Maximum hours per week** — for overtime detection and scheduling guards
+- **Minimum hours between shifts** — for fatigue rules
+- **Assign template to** — roles or specific team members
+- **Location** — scope the template to one location
+
+Plus four configuration tabs:
+
+| Tab | What it covers |
+|---|---|
+| **Pay Rates** | One or more hourly rates with conditions (multiple rates per template support different days, hours, or scenarios) |
+| **Break Rules** | Paid vs unpaid breaks, scheduled break windows, automatic deductions |
+| **Overtime Rules** | Thresholds and multipliers for overtime calculation |
+| **Allowances** | Meal, travel, uniform, on-call — one-off or per-shift extras |
 
 Each member has a default pay template. Each shift can override with a different template (useful for casual rates or special projects).
 
-Manage templates from **Settings → Pay Templates**.
+You can also install pre-built templates from the **Library** for common award structures (e.g., hospitality, retail, construction awards) rather than building from scratch.
 
 For NDIS and Staffing Agency Solutions, you can also map pay templates to **billing rates** for invoicing the funder or client.
 
@@ -130,15 +141,11 @@ From the Timesheets list, select the period and tap **Export → CSV**. You get 
 
 From a single timesheet, tap **Download → PDF**. Useful for printing, signing, archiving, or sharing with someone who doesn't have access to Tommy.
 
-## Reopening an approved timesheet
+## Editing an approved timesheet
 
-If you find an error after approval — wrong rate, missed allowance, fraudulent clock-in — an admin can **Reopen** the timesheet:
+If you find an error after approval — wrong rate, missed allowance, mistaken clock-in — an admin can edit the timesheet, which moves its status back from `approved` and unlocks it for changes. Re-approve afterwards to lock it again.
 
-- The status flips back to Submitted
-- Edits become possible
-- After fixing, re-approve
-
-Reopens are flagged in the audit log. If the timesheet has already been exported to payroll, you'll need to handle the reconciliation in your accounting system manually.
+If the timesheet has already been exported to payroll, you'll need to handle the reconciliation in your accounting system manually.
 
 ## Status notifications
 

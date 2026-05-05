@@ -69,7 +69,7 @@ When you're ready, you can:
 - **Publish all draft shifts** in the current view via the bulk action
 - **Schedule auto-publish** if you want drafts to release at a set time (e.g., every Friday 5pm for the following week)
 
-Once published, the shift is on the member's phone. They get a notification, and a reminder fires before the shift starts (default 30 minutes — members can adjust in [user settings](/user-settings#notifications)).
+Once published, the shift is on the member's phone. They get a notification, and a shift reminder fires before it starts. Members can adjust their reminder preferences in [user settings](/user-settings#notifications).
 
 ## Open shifts
 
@@ -151,7 +151,7 @@ Cancelled shifts don't generate timesheet entries. If the member already clocked
 
 ## Notifications and reminders
 
-When a shift is published, the member is notified. They get a reminder before it starts (configurable, default 30 minutes). When something changes — time, location, cancellation — they're notified again.
+When a shift is published, the member is notified. They get a reminder before it starts (members can configure their preferred lead time). When something changes — time, location, cancellation — they're notified again.
 
 Admins can also set notifications for themselves: "tell me when a member declines a shift" or "tell me when a shift goes unclaimed within 24 hours of start".
 

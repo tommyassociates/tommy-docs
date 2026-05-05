@@ -41,41 +41,27 @@ Breaks are either **paid** (count toward worked hours) or **unpaid** (subtracted
 
 For longer shifts, Tommy can prompt for breaks automatically — useful in Solutions where break compliance matters (Hospitality, NDIS).
 
-## Geofencing
+## GPS verification
 
-Geofencing requires members to be physically at the right location to clock in. It's how teams in regulated industries (NDIS, Construction) prove their members were where they said they were.
+Tommy can require members to have GPS available and be at the right location to clock in. It's how teams in regulated industries (NDIS, Construction) prove their members were where they said they were.
 
 **How it works**
 
 1. Each [Location](/locations) has GPS coordinates from its address
 2. When a member taps **Clock in**, Tommy reads their phone's GPS
-3. If they're within your configured radius, the clock-in succeeds
-4. If they're outside, Tommy can warn them or block them
+3. The location is captured against the attendance record
 
-**Configure** — Go to **Settings → Time Clock**:
+**Configure** — Go to **Settings → Time Clock** and toggle **Require GPS verification** on. Footer text: *"Require team members to be at the location when clocking in and out."*
 
-- **Geofence radius** — how close they need to be (50m, 100m, 200m, custom)
-- **Outside-geofence behaviour** — Allow with a warning, Allow with a reason required, or Block entirely
+NDIS and Construction Solutions ship with GPS required by default. General and Hospitality default to off.
 
-:::tip
-Start with **Allow with a warning** rather than **Block**. GPS can be patchy indoors, and you don't want a worker locked out because their phone thinks they're across the street.
-:::
+## Photo verification
 
-If you have specialised needs (visiting a participant's home for NDIS, multiple sites in a single day for trades), pair geofencing with the **Service Address** field on the shift to override the default location radius per shift.
+You can also require a photo on clock-in and clock-out. The member sees a camera screen, takes a photo, and Tommy attaches it to the attendance record. Managers see the photos alongside the timesheet.
 
-## Photo capture
+**Configure** — **Settings → Time Clock → Require photo verification**. Footer text: *"Require team members to take a photo when clocking in and out."*
 
-You can require a photo on clock-in, clock-out, or both. The member sees a camera screen and takes a selfie (or whatever your policy says — site shot, PPE check, etc.).
-
-Photos are attached to the attendance record. They appear alongside the timesheet for managers to review.
-
-**Configure** — **Settings → Time Clock → Photo requirements**:
-
-- Required, Optional, or Off
-- For clock-in, clock-out, or both
-- Per Solution, per location, or team-wide
-
-NDIS providers typically require photo on both clock-in and clock-out for funder reporting. Hospitality teams typically require nothing.
+NDIS Solution ships with photo verification on by default. Hospitality and Retail default to off.
 
 ## Kiosk Mode
 
@@ -137,16 +123,18 @@ Manual adjustments are flagged in the audit log so you can prove they're not fal
 
 ## Time clock policies
 
-From **Settings → Time Clock**, you can configure:
+From **Settings → Time Clock**, you can toggle:
 
 | Policy | What it does |
 |---|---|
-| **Grace period** | Allow clock-in N minutes early or late without flagging |
-| **Auto clock-out** | After N hours, auto-close stale attendances |
-| **Photo requirement** | Required, optional, or off — per clock event |
-| **Geofence behaviour** | Block, warn, or allow with reason |
-| **Break enforcement** | Prompt for breaks after N hours |
-| **Mileage capture** | On, off, or required for specific roles |
+| **Auto clock out** | Automatically close stale attendances |
+| **Require GPS verification** | Members must be at the location to clock in/out |
+| **Require photo verification** | Members must take a photo when clocking in/out |
+| **Allow mobile devices** | Members can clock in/out from their phone |
+| **Allow web-browser** | Members can clock in/out from a browser (not recommended — GPS and photo are less reliable) |
+| **Enable Tommy Kiosk** | Lock a device into Kiosk mode |
+| **Prevent returning early from breaks** | Block clock-back-on inside the scheduled break window |
+| **Confirm scheduled breaks were taken at Clock-Off** | Prompt member to confirm break compliance |
 
 Defaults match your [Solution](/solutions). Most teams adjust two or three of these and leave the rest alone.
 

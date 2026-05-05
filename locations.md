@@ -45,32 +45,26 @@ Members can be tied to one or many locations. From a member's profile, set their
 What that does:
 
 - The member sees only shifts at their assigned locations
-- They can only clock in within the geofence of their assigned locations (if geofencing is on)
+- Their clock-in location is captured against the attendance record (if GPS verification is on)
 - Location managers see them in their member lists
 
 If a member works across all your locations (a roving manager, a casual who picks up anywhere), leave Locations blank — they'll see everything.
 
-## Geofencing — verifying clock-ins
+## GPS verification on clock-ins
 
-For Solutions that need to prove members were at the right place ([NDIS & Care Services](/solutions#ndis-care-services), [Construction & Trades](/solutions#construction-trades)), Tommy can require members to be physically at the location to clock in.
+For Solutions that need to prove members were at the right place ([NDIS & Care Services](/solutions#ndis-care-services), [Construction & Trades](/solutions#construction-trades)), Tommy can require GPS verification when clocking in and out.
 
 **How it works**
 
 - Each location has GPS coordinates from its address
 - When a member taps **Clock in**, Tommy reads their phone's GPS
-- If they're within your configured radius, the clock-in succeeds
-- If they're outside, Tommy can warn them or block the clock-in entirely
+- The location is captured against the attendance record alongside the time
 
-**Configure** — Go to **Settings → Time Clock** and set:
+**Configure** — Go to **Settings → Time Clock** and toggle **Require GPS verification** on. The footer reads: *"Require team members to be at the location when clocking in and out."*
 
-- **Geofence radius** — how close someone has to be (e.g., 50 metres, 200 metres)
-- **Behaviour outside the geofence** — Warn, Block, or Allow with a reason
+NDIS and Construction Solutions have this on by default; General and Hospitality default to off.
 
-See [Time Clock](/timeclock#geofencing) for the full setup.
-
-:::tip
-Start with **Warn** rather than **Block**. GPS isn't perfect and you'll otherwise get angry phone calls about members standing in front of the building who can't clock in.
-:::
+See [Time Clock](/timeclock#gps-verification) for the full setup.
 
 ## Multi-location scheduling
 
@@ -106,8 +100,8 @@ Removing a location is harder, because past shifts and timesheets reference it. 
 ## What's next
 
 <CardGroup cols={2}>
-  <Card title="Time Clock & Geofencing" icon="map-pin" href="/timeclock#geofencing">
-    Set up geofence radius, photo capture, and clock-in policies.
+  <Card title="Time Clock & GPS" icon="map-pin" href="/timeclock#gps-verification">
+    Set up GPS verification, photo capture, and clock-in policies.
   </Card>
   <Card title="Permissions" icon="lock-closed" href="/user-settings#permissions">
     How location managers get their scoped access.

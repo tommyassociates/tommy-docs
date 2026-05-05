@@ -112,10 +112,9 @@ This is what members see when they open settings. It's also available to admins 
 
 Members can fine-tune what Tommy notifies them about and when:
 
-- **Shift reminders** — how long before a shift to remind them (default: 30 minutes)
+- **Shift reminders** — get a push notification before a shift starts
 - **Timesheet alerts** — submission and approval updates
-- **Quiet hours** — block notifications during specified times
-- **Channel** — push, email, SMS, or all three
+- **Channel** — push, email, SMS, or a combination
 
 ### Security & two-factor
 
@@ -144,7 +143,7 @@ From **Tommy Account → Close Account**, members can close their personal Tommy
 
 Note that closing your personal account doesn't close the teams you're a member of — you just stop having access. If you own a team, you'll need to either transfer ownership or close the team first (see Danger Zone above).
 
-## Permissions deep-dive
+## Permissions
 
 Tommy ships with these built-in roles (visible in the app i18n as):
 

@@ -106,7 +106,7 @@ Past data stays in both systems. Future timesheets won't push, and employee sync
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
-| **Auth expired** | Xero tokens last 60 days | Reconnect from the integration page |
+| **Auth expired** | Xero OAuth tokens expire periodically | Reconnect from the integration page |
 | **Timesheet export fails** | Pay rule has no Xero payroll item mapping | Open Settings → Pay Templates and assign the right Xero payroll item |
 | **Member not exporting** | Member not mapped to a Xero employee | Map manually from the integration page |
 | **Duplicate employees in Xero** | Both systems created the employee independently | Merge in Xero; Tommy will pick up the survivor on next sync |
