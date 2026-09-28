@@ -4,7 +4,7 @@
   "description": "Workforce, scheduling, documents, and chat for service teams.",
   "server": {
     "name": "tommy",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "title": "Tommy",
     "description": "Workforce, scheduling, documents, and chat for service teams."
   },
@@ -29,6 +29,7 @@
       "name": "tommy_get_status",
       "description": "Get current account/team readiness, recent activity counts, and recommended next actions.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {}
       },
@@ -43,6 +44,7 @@
       "name": "tommy_query",
       "description": "Read-only paginated lookup across approved Tommy entity types: shifts, availabilities, documents, clients, contacts, team_members. Pagination via page/per.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "entity": {
@@ -91,6 +93,7 @@
       "name": "tommy_search_people",
       "description": "Search across team_members, clients, or contacts by name/email. Pass kind to narrow; q is the case-insensitive search term.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "q": {
@@ -128,6 +131,7 @@
       "name": "tommy_get_insights",
       "description": "Read-only summaries and metrics for the active team. Pass metric to narrow: overview, attendance, shifts, documents.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "metric": {
@@ -164,6 +168,7 @@
       "name": "tommy_manage_shift",
       "description": "Create, update, cancel, drop, or swap a workforce shift. Pass dry_run: true to preview. Cancel/drop/swap require attributes.confirm: true.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "operation": {
@@ -256,8 +261,9 @@
     },
     {
       "name": "tommy_manage_shift_requirements",
-      "description": "Create, update, cancel, approve, or reject a shift request (request / drop / swap / offer). approve_request, reject_request, and cancel_request require attributes.confirm: true.",
+      "description": "Create, update, cancel, approve, or reject a shift request (request / drop / swap). approve_request, reject_request, and cancel_request require attributes.confirm: true.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "operation": {
@@ -290,8 +296,7 @@
             "enum": [
               "request",
               "drop",
-              "swap",
-              "offer"
+              "swap"
             ],
             "description": "For create_request: what kind of request."
           },
@@ -311,16 +316,9 @@
                   "integer",
                   "string"
                 ],
-                "description": "For swap requests, the shift to swap into.",
+                "description": "For a responding request, your own shift offered in the trade. Leave blank on the initial swap offer.",
                 "x-bot-form": {
                   "field": "shift"
-                }
-              },
-              "message": {
-                "type": "string",
-                "description": "Optional note.",
-                "x-bot-form": {
-                  "field": "textarea"
                 }
               },
               "confirm": {
@@ -349,6 +347,7 @@
       "name": "tommy_manage_availability",
       "description": "Update an availability record or record a clock-in/out attendance.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "operation": {
@@ -466,6 +465,7 @@
       "name": "tommy_manage_documents",
       "description": "Create, update, cancel, approve, or reject a leave request. Approve/reject/cancel require attributes.confirm: true.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "operation": {
@@ -520,13 +520,6 @@
                 ],
                 "description": "Type of leave."
               },
-              "message": {
-                "type": "string",
-                "description": "Optional note.",
-                "x-bot-form": {
-                  "field": "textarea"
-                }
-              },
               "confirm": {
                 "type": "boolean",
                 "default": false,
@@ -550,14 +543,132 @@
       }
     },
     {
+      "name": "tommy_manage_dashboards",
+      "description": "Add tabs or panels to team dashboards, set tab visibility, or reorder tabs. Requires the manage_dashboards permission. Use dry_run to preview and an idempotency_key to safely retry a write.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "operation": {
+            "type": "string",
+            "enum": [
+              "add_tab",
+              "add_panel",
+              "set_visibility",
+              "reorder"
+            ],
+            "description": "What to do."
+          },
+          "dry_run": {
+            "type": "boolean",
+            "default": false,
+            "description": "Preview the mutation without writing."
+          },
+          "idempotency_key": {
+            "type": "string",
+            "description": "Dedupe retries of the same write."
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Fields for the chosen operation.",
+            "properties": {
+              "surface": {
+                "type": "string",
+                "enum": [
+                  "dashboard",
+                  "team_member_details",
+                  "client_details",
+                  "reports_home"
+                ],
+                "description": "Which surface to change."
+              },
+              "title": {
+                "type": "string",
+                "description": "add_tab: tab title."
+              },
+              "slug": {
+                "type": "string",
+                "description": "add_tab: optional slug (generated from the title when omitted)."
+              },
+              "icon": {
+                "type": "string",
+                "description": "add_tab: optional icon."
+              },
+              "tab": {
+                "type": "string",
+                "description": "add_panel/set_visibility: target tab id or slug."
+              },
+              "mp_id": {
+                "type": "string",
+                "description": "add_panel: MP id ('core' for host panels)."
+              },
+              "panel_id": {
+                "type": "string",
+                "description": "add_panel: panel id within the MP."
+              },
+              "x": {
+                "type": "integer",
+                "description": "add_panel: grid column (default 0)."
+              },
+              "y": {
+                "type": "integer",
+                "description": "add_panel: grid row (default: layout bottom)."
+              },
+              "w": {
+                "type": "integer",
+                "description": "add_panel: width in columns 1-12 (default 6)."
+              },
+              "h": {
+                "type": "integer",
+                "description": "add_panel: height in rows (default 4)."
+              },
+              "params": {
+                "type": "object",
+                "description": "add_panel: panel param bindings."
+              },
+              "config": {
+                "type": "object",
+                "description": "add_panel: panel config."
+              },
+              "visibility": {
+                "type": "object",
+                "description": "set_visibility: audience/gate object ({} clears the rule)."
+              },
+              "ordered": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "reorder: tab ids or slugs in the desired order."
+              }
+            }
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false
+      }
+    },
+    {
       "name": "tommy_set_memory",
       "description": "Update the operator's persistent AI memory document for this team. Call with merge: true to merge keys, or replace: true to overwrite. The document is read back via tommy://memory.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "document": {
             "type": "object",
             "description": "Free-form JSON object (goals, audience, tone, anything the agent should remember)."
+          },
+          "idempotency_key": {
+            "type": "string",
+            "description": "Dedupe retries."
           },
           "merge": {
             "type": "boolean",
@@ -576,15 +687,16 @@
       },
       "annotations": {
         "destructiveHint": false,
-        "idempotentHint": false,
+        "idempotentHint": true,
         "openWorldHint": false,
         "readOnlyHint": false
       }
     },
     {
       "name": "tommy_request_support",
-      "description": "Record a support request from the team. The request is logged and instrumented; a real ticket is created downstream by the support pipeline. Use this instead of exposing arbitrary contact channels.",
+      "description": "Record a durable support request and queue it for delivery to the Tommy support inbox.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "idempotency_key": {
@@ -596,10 +708,13 @@
             "properties": {
               "summary": {
                 "type": "string",
+                "minLength": 1,
+                "maxLength": 500,
                 "description": "One-line summary."
               },
               "details": {
                 "type": "string",
+                "maxLength": 20000,
                 "description": "Free-form detail.",
                 "x-bot-form": {
                   "field": "textarea"
@@ -643,33 +758,40 @@
     {
       "uri": "tommy://guide",
       "name": "guide",
-      "description": "Read first. Tommy vocabulary, recommended workflow, and tool conventions."
+      "description": "Read first. Tommy vocabulary, recommended workflow, and tool conventions.",
+      "mimeType": "application/json"
     },
     {
       "uri": "tommy://team/current",
       "name": "team-current",
-      "description": "Live snapshot of the active team: name, owner, counts (members, clients, shifts, availabilities, documents), and installed addons."
+      "description": "Live snapshot of the active team: name, owner, counts (members, clients, shifts, availabilities, documents), and installed addons.",
+      "mimeType": "application/json"
     },
     {
       "uri": "tommy://features",
       "name": "features",
-      "description": "Feature flags and addon slugs enabled for the active team."
+      "description": "Feature flags and addon slugs enabled for the active team.",
+      "mimeType": "application/json"
     },
     {
       "uri": "tommy://memory",
       "name": "memory",
-      "description": "Operator memory document for this team. Free-form JSON the agent has saved (goals, audience, tone, anything worth remembering). Managed via tommy_set_memory."
-    },
+      "description": "Operator memory document for this team. Free-form JSON the agent has saved (goals, audience, tone, anything worth remembering). Managed via tommy_set_memory.",
+      "mimeType": "application/json"
+    }
+  ],
+  "resourceTemplates": [
     {
-      "uri": "tommy://prompts/{name}",
+      "uriTemplate": "tommy://prompts/{name}",
       "name": "prompt",
-      "description": "Rendered prompt template by name. Available names listed in the prompt registry."
+      "description": "Rendered prompt template by name. Available names listed in the prompt registry.",
+      "mimeType": "application/json"
     }
   ],
   "prompts": [
     {
-      "name": "documents",
-      "description": "Workflow guidance for requesting, approving, and reminding on team documents.",
+      "name": "leave",
+      "description": "Workflow guidance for requesting, approving, rejecting, and cancelling leave.",
       "arguments": []
     },
     {
