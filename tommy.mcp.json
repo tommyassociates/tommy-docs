@@ -29,6 +29,7 @@
       "name": "tommy_get_status",
       "description": "Get current account/team readiness, recent activity counts, and recommended next actions.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {}
       },
@@ -41,14 +42,17 @@
     },
     {
       "name": "tommy_query",
-      "description": "Read-only paginated lookup across approved Tommy entity types: shifts, availabilities, documents, clients, contacts, team_members. Pagination via page/per.",
+      "description": "Read-only paginated lookup across approved Tommy entity types: shifts, shift_requests, leave_requests, availabilities, documents, clients, contacts, team_members. Pagination via page/per.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "entity": {
             "type": "string",
             "enum": [
               "shifts",
+              "shift_requests",
+              "leave_requests",
               "availabilities",
               "documents",
               "clients",
@@ -91,6 +95,7 @@
       "name": "tommy_search_people",
       "description": "Search across team_members, clients, or contacts by name/email. Pass kind to narrow; q is the case-insensitive search term.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "q": {
@@ -128,6 +133,7 @@
       "name": "tommy_get_insights",
       "description": "Read-only summaries and metrics for the active team. Pass metric to narrow: overview, attendance, shifts, documents.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "metric": {
@@ -162,8 +168,9 @@
     },
     {
       "name": "tommy_manage_shift",
-      "description": "Create, update, cancel, drop, or swap a workforce shift. Pass dry_run: true to preview. Cancel/drop/swap require attributes.confirm: true.",
+      "description": "Create, update, cancel, drop, or swap a workforce shift. Pass dry_run: true to preview. Cancel/drop/swap require attributes.confirm: true. Managers create, update, and cancel; members drop or swap their own shifts.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "operation": {
@@ -255,9 +262,10 @@
       }
     },
     {
-      "name": "tommy_manage_shift_requirements",
-      "description": "Create, update, cancel, approve, or reject a shift request (request / drop / swap / offer). approve_request, reject_request, and cancel_request require attributes.confirm: true.",
+      "name": "tommy_manage_shift_requests",
+      "description": "Create, update, cancel, approve, or reject a shift request (request / drop / swap / offer). approve_request, reject_request, and cancel_request require attributes.confirm: true. Managers approve or reject; members update or cancel their own requests.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "operation": {
@@ -316,13 +324,6 @@
                   "field": "shift"
                 }
               },
-              "message": {
-                "type": "string",
-                "description": "Optional note.",
-                "x-bot-form": {
-                  "field": "textarea"
-                }
-              },
               "confirm": {
                 "type": "boolean",
                 "default": false,
@@ -347,8 +348,9 @@
     },
     {
       "name": "tommy_manage_availability",
-      "description": "Update an availability record or record a clock-in/out attendance.",
+      "description": "Update an availability record or record a clock-in/out attendance. Members act for themselves at the current time; managers can act for others or set a time.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "operation": {
@@ -463,9 +465,10 @@
       }
     },
     {
-      "name": "tommy_manage_documents",
-      "description": "Create, update, cancel, approve, or reject a leave request. Approve/reject/cancel require attributes.confirm: true.",
+      "name": "tommy_manage_leave",
+      "description": "Create, update, cancel, approve, or reject a leave request. Approve/reject/cancel require attributes.confirm: true. Managers approve or reject; members update or cancel their own requests.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "operation": {
@@ -520,13 +523,6 @@
                 ],
                 "description": "Type of leave."
               },
-              "message": {
-                "type": "string",
-                "description": "Optional note.",
-                "x-bot-form": {
-                  "field": "textarea"
-                }
-              },
               "confirm": {
                 "type": "boolean",
                 "default": false,
@@ -553,6 +549,7 @@
       "name": "tommy_set_memory",
       "description": "Update the operator's persistent AI memory document for this team. Call with merge: true to merge keys, or replace: true to overwrite. The document is read back via tommy://memory.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "document": {
@@ -583,8 +580,9 @@
     },
     {
       "name": "tommy_request_support",
-      "description": "Record a support request from the team. The request is logged and instrumented; a real ticket is created downstream by the support pipeline. Use this instead of exposing arbitrary contact channels.",
+      "description": "Send a support request to the Tommy support team, who reply by email. Use this instead of exposing arbitrary contact channels.",
       "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
           "idempotency_key": {
@@ -643,33 +641,40 @@
     {
       "uri": "tommy://guide",
       "name": "guide",
-      "description": "Read first. Tommy vocabulary, recommended workflow, and tool conventions."
+      "description": "Read first. Tommy vocabulary, recommended workflow, and tool conventions.",
+      "mimeType": "application/json"
     },
     {
       "uri": "tommy://team/current",
       "name": "team-current",
-      "description": "Live snapshot of the active team: name, owner, counts (members, clients, shifts, availabilities, documents), and installed addons."
+      "description": "Live snapshot of the active team: name, owner, counts (members, clients, shifts, availabilities, documents), and installed addons.",
+      "mimeType": "application/json"
     },
     {
       "uri": "tommy://features",
       "name": "features",
-      "description": "Feature flags and addon slugs enabled for the active team."
+      "description": "Feature flags and addon slugs enabled for the active team.",
+      "mimeType": "application/json"
     },
     {
       "uri": "tommy://memory",
       "name": "memory",
-      "description": "Operator memory document for this team. Free-form JSON the agent has saved (goals, audience, tone, anything worth remembering). Managed via tommy_set_memory."
-    },
+      "description": "Operator memory document for this team. Free-form JSON the agent has saved (goals, audience, tone, anything worth remembering). Managed via tommy_set_memory.",
+      "mimeType": "application/json"
+    }
+  ],
+  "resourceTemplates": [
     {
-      "uri": "tommy://prompts/{name}",
+      "uriTemplate": "tommy://prompts/{name}",
       "name": "prompt",
-      "description": "Rendered prompt template by name. Available names listed in the prompt registry."
+      "description": "Rendered prompt template by name. Available names listed in the prompt registry.",
+      "mimeType": "application/json"
     }
   ],
   "prompts": [
     {
-      "name": "documents",
-      "description": "Workflow guidance for requesting, approving, and reminding on team documents.",
+      "name": "leave",
+      "description": "Workflow guidance for requesting, approving, rejecting, and cancelling leave.",
       "arguments": []
     },
     {
