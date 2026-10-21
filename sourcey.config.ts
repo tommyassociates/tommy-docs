@@ -2,6 +2,7 @@ import { defineConfig } from "sourcey";
 
 export default defineConfig({
   name: "Tommy",
+  siteUrl: "https://docs.mytommy.com",
   prettyUrls: "strip",
   theme: {
     colors: {
