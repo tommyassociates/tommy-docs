@@ -32,7 +32,7 @@ Tommy ships with **Solutions** — pre-configured setups for the industries we k
   <Card title="NDIS & Care Services" icon="heart">
     Disability support, home care, aged care. Compliance documents, participant management, GPS-verified visits.
   </Card>
-  <Card title="Hospitality" icon="cup">
+  <Card title="Hospitality" icon="building-storefront">
     Restaurants, cafés, bars, hotels. Role-based shifts, split shifts, POS sync.
   </Card>
   <Card title="Retail" icon="shopping-bag">

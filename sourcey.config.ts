@@ -86,7 +86,7 @@ export default defineConfig({
       { type: "github", href: "https://github.com/tommyassociates" },
     ],
   },
-  redirects: [
-    { source: "/welcome", destination: "/introduction" },
-  ],
+  redirects: {
+    "/welcome": "/introduction",
+  },
 });

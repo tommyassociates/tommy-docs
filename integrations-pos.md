@@ -85,7 +85,7 @@ Past data stays in both systems. Future syncs stop.
   <Card title="Time Clock" icon="clock" href="/timeclock">
     Where attendance data actually comes from.
   </Card>
-  <Card title="Solutions: Hospitality" icon="cup" href="/solutions#hospitality">
+  <Card title="Solutions: Hospitality" icon="building-storefront" href="/solutions#hospitality">
     Where SwiftPOS is most commonly used.
   </Card>
   <Card title="Solutions: Retail" icon="shopping-bag" href="/solutions#retail">

@@ -128,7 +128,7 @@ If you're stuck, email **support@mytommy.com** with the error code from the inte
   <Card title="Team Members" icon="users" href="/team-members">
     Employee mapping happens at the member level.
   </Card>
-  <Card title="API Reference" icon="code" href="/api">
+  <Card title="API Reference" icon="code-bracket" href="/api">
     For custom integrations beyond the built-in providers.
   </Card>
   <Card title="Settings" icon="cog" href="/user-settings">

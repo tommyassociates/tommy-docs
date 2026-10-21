@@ -16,7 +16,7 @@ You pick a Solution during [Onboarding](/onboarding). You can change it later fr
   <Card title="NDIS & Care Services" icon="heart">
     NDIS providers, disability support, home care, aged care.
   </Card>
-  <Card title="Hospitality" icon="cup">
+  <Card title="Hospitality" icon="building-storefront">
     Restaurants, cafés, bars, pubs, hotels.
   </Card>
   <Card title="Retail" icon="shopping-bag">
